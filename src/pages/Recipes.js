@@ -7,7 +7,7 @@ export default function Recipes(props) {
   return (
     <div>
       <Header searchIcon="visible" title="Profile" history={ history } />
-      Login
+      Tela Principal de comidas!!!
     </div>
   );
 }
