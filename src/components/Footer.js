@@ -23,7 +23,9 @@ function Footer(props) {
           data-testid="drinks-bottom-btn"
           src="../images/drinkIcon.svg"
           onClick={ drinkRedirect }
-        />
+        >
+          <img src="../images/drinkIcon.svg" alt='dreakIcon' />
+        </button>
         <button
           type="button"
           aria-label="foods"
@@ -31,7 +33,9 @@ function Footer(props) {
           src="../images/mealIcon.svg"
           data-testid="food-bottom-btn"
           onClick={ foodRedirect }
-        />
+        >
+          <img src="../images/mealIcon.svg" alt='mealIcon'/>
+        </button>
       </footer>
     </div>
   );

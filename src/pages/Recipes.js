@@ -29,6 +29,7 @@ export default function Recipes(props) {
     <div>
       <button type="button" onClick={ buttonToDrinks }>Drinks</button>
       <Header searchIcon="visible" title="Foods" history={ history } />
+      {
         food && arrayFood.map((item, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ index }>
             <img
@@ -44,9 +45,10 @@ export default function Recipes(props) {
           </div>
         ))
       }
-      <Footer />
+      <Footer history={ history } />
     </div>
   );
+}
 
 Recipes.propTypes = {
   history: PropTypes.shape({

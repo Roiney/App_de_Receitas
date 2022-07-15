@@ -40,7 +40,7 @@ export default function Drinks(props) {
           </div>
         ))
       }
-      <Footer history={ history }/>
+      <Footer history={ history } />
     </div>
   );
 }
