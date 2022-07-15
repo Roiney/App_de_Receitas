@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import contexto from '../context';
 
 export default function Drinks(props) {
@@ -30,6 +31,7 @@ export default function Drinks(props) {
           />
         </div>
       ))}
+      <Footer history={ history } />
     </div>
   );
 }
