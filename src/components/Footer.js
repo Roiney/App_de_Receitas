@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Styles/Footer.css';
 
 function Footer(props) {
@@ -24,7 +25,7 @@ function Footer(props) {
           src="../images/drinkIcon.svg"
           onClick={ drinkRedirect }
         >
-          <img src="../images/drinkIcon.svg" alt='dreakIcon' />
+          <img src="../images/drinkIcon.svg" alt="dreakIcon" />
         </button>
         <button
           type="button"
@@ -34,11 +35,21 @@ function Footer(props) {
           data-testid="food-bottom-btn"
           onClick={ foodRedirect }
         >
-          <img src="../images/mealIcon.svg" alt='mealIcon'/>
+          <img
+            src="../images/mealIcon.svg"
+            data-testid="food-bottom-btn"
+            alt="mealIcon"
+          />
         </button>
       </footer>
     </div>
   );
 }
+
+Footer.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Footer;

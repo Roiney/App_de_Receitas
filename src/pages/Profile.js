@@ -13,7 +13,7 @@ export default function Profile() {
       <button type="button" onClick={ buttonBackFoods }>Tela principal</button>
       <Header searchIcon="hidden" title="Profile" history={ history } />
       Profile
-      <Footer history={ history }/>
+      <Footer history={ history } />
     </div>
   );
 }

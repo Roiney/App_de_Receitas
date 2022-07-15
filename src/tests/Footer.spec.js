@@ -15,6 +15,10 @@ describe('Testar o componente Footer e suas funcionalidade', () => {
     userEvent.click(btnEnter);
     const Footer = screen.getByTestId('footer');
     expect(Footer).toBeInTheDocument();
-    })
-
+    const btnDrink = screen.getByRole('img', {  name: /dreakicon/i})
+    expect(btnDrink).toBeInTheDocument();  
+    userEvent.click(btnDrink);
+    const pageDrink = screen.getByRole('heading', {  name: /drinks/i});
+    expect(pageDrink).toBeInTheDocument(); 
+})
 })
