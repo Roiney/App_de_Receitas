@@ -37,7 +37,6 @@ function Footer(props) {
         >
           <img
             src="../images/mealIcon.svg"
-            data-testid="food-bottom-btn"
             alt="mealIcon"
           />
         </button>
