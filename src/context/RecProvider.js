@@ -8,16 +8,31 @@ export default function RecProvider({ children }) {
   // const [login, setLogin] = useState('');
   const [search, setSearch] = useState('');
   const [inputSearch, setInputSearch] = useState('');
-  const [food, setFood] = useState(['vazio']);
-  const [drink, setDrink] = useState(['vazio']);
+  const [food, setFood] = useState([]);
+  const [drink, setDrink] = useState([]);
+  const [foodsIn12, setFoodsIn12] = useState([]);
+  const [drinksIn12, setDrinksIn12] = useState([]);
+
+  const reqApiFoods = async () => {
+    const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    const result = await fetch(url);
+    const data = await result.json();
+    setFoodsIn12(data.meals);
+    console.log(data.meals);
+  };
+
+  const reqApiDrinks = async () => {
+    const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    const result = await fetch(url);
+    const data = await result.json();
+    setDrinksIn12(data.drinks);
+    console.log(drinksIn12);
+  };
 
   const setFetch = (apiReq) => {
-    console.log(apiReq);
-    console.log(apiReq);
     if (Object.keys(apiReq).includes('drinks')) {
       setDrink(apiReq.drinks);
     } else if (Object.keys(apiReq).includes('meals')) {
-      console.log(apiReq.meals);
       setFood(apiReq.meals);
     }
   };
@@ -34,6 +49,10 @@ export default function RecProvider({ children }) {
     inputSearch,
     setFetch,
     sendInputSearch,
+    reqApiFoods,
+    foodsIn12,
+    drinksIn12,
+    reqApiDrinks,
   };
 
   return (

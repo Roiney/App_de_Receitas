@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -10,41 +10,48 @@ export default function Recipes(props) {
   const cont = useContext(contexto);
   const { context } = cont;
 
-  const { food } = context;
-  console.log(food);
-  let arrayFood = food;
-  const max = 12;
-  if (food.length > max) {
-    arrayFood = [];
-    for (let i = 0; i < max; i += 1) {
-      arrayFood.push(food[i]);
-    }
-  }
+  const { food, reqApiFoods, foodsIn12 } = context;
 
   const buttonToDrinks = () => {
     history.push('/drinks');
   };
 
+  useEffect(() => {
+    reqApiFoods();
+  }, []);
+
+  // Outra maneira de fazer o .map mas foi preferido a outra maneira!!!
+  /* const reqToMap = (array) => array.slice(0, +'12').map((item, index) => (
+    <div key={ index } data-testid={ `${index}-recipe-card` }>
+      <p data-testid={ `${index}-card-name` }>{item.strMeal}</p>
+      <img
+        data-testid={ `${index}-card-img` }
+        src={ item.strMealThumb }
+        alt=""
+        className="imageItem"
+      />
+    </div>
+  )); */
+
   return (
     <div>
-      <button type="button" onClick={ buttonToDrinks }>Drinks</button>
+      <button type="button" onClick={ buttonToDrinks }>
+        Drinks
+      </button>
       <Header searchIcon="visible" title="Foods" history={ history } />
-      {
-        food && arrayFood.map((item, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ index }>
-            <img
-              src={ item.strMealThumb }
-              data-testid={ `${index}-card-img` }
-              className="imageItem"
-              alt=""
-            />
-            <p data-testid={ `${index}-card-name` }>
-              { item.strMeal }
-              {' '}
-            </p>
-          </div>
-        ))
-      }
+      {/* { food.length ? reqToMap(food) : reqToMap(foodsIn12) }
+      { reqToMap(food.length ? food : foodsIn12) } */}
+      {(food.length ? food : foodsIn12).slice(0, +'12').map((item, index) => (
+        <div key={ index } data-testid={ `${index}-recipe-card` }>
+          <p data-testid={ `${index}-card-name` }>{item.strMeal}</p>
+          <img
+            data-testid={ `${index}-card-img` }
+            src={ item.strMealThumb }
+            alt=""
+            className="imageItem"
+          />
+        </div>
+      ))}
       <Footer history={ history } />
     </div>
   );
