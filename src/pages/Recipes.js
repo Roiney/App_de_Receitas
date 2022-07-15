@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import contexto from '../context';
 
 export default function Recipes(props) {
@@ -44,6 +45,7 @@ export default function Recipes(props) {
           </div>
         ))
       }
+      <Footer history={ history } />
     </div>
   );
 }
