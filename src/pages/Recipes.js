@@ -20,8 +20,13 @@ export default function Recipes(props) {
     }
   }
 
+  const buttonToDrinks = () => {
+    history.push('/drinks');
+  };
+
   return (
     <div>
+      <button type="button" onClick={ buttonToDrinks }>Drinks</button>
       <Header searchIcon="visible" title="Foods" history={ history } />
       {
         food && arrayFood.map((item, index) => (

@@ -30,6 +30,7 @@ export default function RecProvider({ children }) {
     food,
     drink,
     search,
+    setSearch,
     inputSearch,
     setFetch,
     sendInputSearch,

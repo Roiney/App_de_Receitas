@@ -27,6 +27,7 @@ export default function Header(props) {
           data-testid="search-input"
           value={ inputSearch }
           onChange={ (e) => sendInputSearch(e.target.value) }
+          placeholder="Search"
         />
       );
     } return null;
