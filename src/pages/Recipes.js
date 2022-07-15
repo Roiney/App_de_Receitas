@@ -12,10 +12,6 @@ export default function Recipes(props) {
 
   const { food, reqApiFoods, foodsIn12 } = context;
 
-  const buttonToDrinks = () => {
-    history.push('/drinks');
-  };
-
   useEffect(() => {
     reqApiFoods();
   }, []);
@@ -35,9 +31,6 @@ export default function Recipes(props) {
 
   return (
     <div>
-      <button type="button" onClick={ buttonToDrinks }>
-        Drinks
-      </button>
       <Header searchIcon="visible" title="Foods" history={ history } />
       {/* { food.length ? reqToMap(food) : reqToMap(foodsIn12) }
       { reqToMap(food.length ? food : foodsIn12) } */}

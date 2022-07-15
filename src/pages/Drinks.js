@@ -14,7 +14,7 @@ export default function Drinks(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  }, []);
+  });
 
   return (
     <div>
