@@ -1,0 +1,8 @@
+footer {
+    bottom: 0;
+    position: fixed;
+}
+footer button {
+    width: 10 px;
+    height: 30px;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import './Styles/Footer.css';
 
 function Footer(props) {
   const { history } = props;
@@ -13,18 +13,25 @@ function Footer(props) {
   };
 
   return (
-    <div>
+    <div className="footer">
       <footer data-testid="footer" htmlFor="drink">
 
-        <button type="button" data-testid="drinks-bottom-btn" onClick={ drinkRedirect }>
-          {' '}
-          <img src="../images/drinkIcon.svg" />
-        </button>
-        <button type="button" data-testid="food-bottom-btn" onClick={ foodRedirect }>
-          {' '}
-          <img src="../images/mealIcon.svg" />
-        </button>
-
+        <button
+          type="button"
+          aria-label="drinks"
+          className="iconDrink"
+          data-testid="drinks-bottom-btn"
+          src="../images/drinkIcon.svg"
+          onClick={ drinkRedirect }
+        />
+        <button
+          type="button"
+          aria-label="foods"
+          className="iconFoods"
+          src="../images/mealIcon.svg"
+          data-testid="food-bottom-btn"
+          onClick={ foodRedirect }
+        />
       </footer>
     </div>
   );
