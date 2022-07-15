@@ -1,9 +1,9 @@
 footer {
-    bottom: 0;
-    position: fixed;
-    width: 200px;
+  bottom: 0;
+  position: fixed;
+  width: 200px;
 }
 footer button {
-    width: 100px;
-    height: 100px;
+  width: 100px;
+  height: 100px;
 }
