@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
-export default function Recipes(props) {
+export default function Drinks(props) {
   const { history } = props;
   return (
     <div>
       <Header searchIcon="visible" title="Profile" history={ history } />
-      Tela Principal de comidas!!!
+      Profile
     </div>
   );
 }
 
-Recipes.propTypes = {
+Drinks.propTypes = {
   history: PropTypes.func.isRequired,
 };
