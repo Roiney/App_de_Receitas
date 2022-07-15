@@ -1,19 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function Profile(props) {
-  const { history } = props;
+export default function Profile() {
+  const history = useHistory();
+  const buttonBackFoods = () => {
+    history.push('/foods');
+  };
   return (
     <div>
+      <button type="button" onClick={ buttonBackFoods }>Tela principal</button>
       <Header searchIcon="hidden" title="Profile" history={ history } />
       Profile
       <Footer history={ history }/>
     </div>
   );
 }
-
-Profile.propTypes = {
-  history: PropTypes.func.isRequired,
-};
