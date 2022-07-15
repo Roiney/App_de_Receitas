@@ -3,7 +3,8 @@ footer {
   position: fixed;
   width: 200px;
 }
+
 footer button {
-  width: 100px;
   height: 100px;
+  width: 100px;
 }
