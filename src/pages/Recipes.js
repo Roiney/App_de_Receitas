@@ -20,6 +20,7 @@ export default function Recipes(props) {
     filterCategory,
     reqApiCategory,
     setFilterCategory,
+    resetFilters,
   } = context;
 
   useEffect(() => {
@@ -46,15 +47,15 @@ export default function Recipes(props) {
             data-testid={ `${index}-card-img` }
           />
         </div>
-
       </Link>
     ));
 
-  const changeCategoryToogle = (category) => {
+  const changeToogle = (category) => {
     if (filterCategory !== category) {
       return reqApiCategory(category);
     }
-    return setFilterCategory([]);
+    resetFilters();
+    console.log('reset');
   };
 
   return (
@@ -72,14 +73,12 @@ export default function Recipes(props) {
           <button
             type="button"
             data-testid={ `${button.strCategory}-category-filter` }
-            onClick={ () => changeCategoryToogle(button.strCategory) }
+            onClick={ () => changeToogle(button.strCategory) }
           >
             {button.strCategory}
           </button>
         </span>
       ))}
-      {/* { food.length ? reqToMap(food) : reqToMap(foodsIn12) }
-      { reqToMap(food.length ? food : foodsIn12) } */}
       {filterCategory.length
         ? handleCategoryFilter(filterCategory)
         : (food.length ? food : foodsIn12)
@@ -101,17 +100,6 @@ export default function Recipes(props) {
               </div>
             </Link>
           ))}
-      {/* {(food.length ? food : foodsIn12).slice(0, +'12').map((item, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
-          <p data-testid={ `${index}-card-name` }>{item.strMeal}</p>
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ item.strMealThumb }
-            alt=""
-            className="imageItem"
-          />
-        </div>
-      ))} */}
       <Footer history={ history } />
     </div>
   );

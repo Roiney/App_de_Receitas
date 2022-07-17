@@ -33,12 +33,15 @@ export default function RecProvider({ children }) {
     console.log((data.meals).slice(0, +'12'));
   };
 
+  const resetFilters = () => {
+    setFilterCategory([]);
+  };
+
   const reqApiFoods = async () => {
     const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     const result = await fetch(url);
     const data = await result.json();
     setFoodsIn12(data.meals);
-    console.log(data.meals);
   };
 
   const reqApiDrinks = async () => {
@@ -54,7 +57,6 @@ export default function RecProvider({ children }) {
     const result = await fetch(url);
     const data = await result.json();
     setBtnFoods(data.meals);
-    console.log(btnFoods);
   };
 
   const reqApiBtnDrinks = async () => {
@@ -99,6 +101,7 @@ export default function RecProvider({ children }) {
     reqApiCategoryDrink,
     setFilterCategoryDrink,
     setFilterCategory,
+    resetFilters,
   };
 
   return (
