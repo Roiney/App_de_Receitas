@@ -5,9 +5,6 @@ import Footer from '../components/Footer';
 
 export default function Profile() {
   const history = useHistory();
-  const buttonBackFoods = () => {
-    history.push('/foods');
-  };
 
   const localStorageReset = () => {
     history.push('/');
@@ -17,9 +14,9 @@ export default function Profile() {
   const email = JSON.parse(localStorage.getItem('user'));
   return (
     <div>
-      <button type="button" onClick={ buttonBackFoods }>Tela principal</button>
+
       <Header searchIcon="hidden" title="Profile" history={ history } />
-      <p data-testid="profile-email">{ email.email }</p>
+      <p data-testid="profile-email">{ email && email.email }</p>
       <button
         type="button"
         data-testid="profile-done-btn"
