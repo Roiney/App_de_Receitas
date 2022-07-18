@@ -16,7 +16,6 @@ import DrinksProgress from './pages/DrinksProgress';
 function App() {
   return (
     <RecProvider>
-
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/drinks" component={ Drinks } />
@@ -29,8 +28,7 @@ function App() {
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route path="/foods" component={ Recipes } />
       </Switch>
-
-    </RecProvider>
+     </RecProvider>
   );
 }
 
