@@ -165,22 +165,148 @@ describe('Testar componente SearchBar', () => {
     window.alert = domAlert; 
   })
 
-  it('Alerta de receita não encontrada', async () => {
+  describe('Testando search da drinks', () => {
+    it('Testando se exibe alerta ao digitar mais de uma letra', async () => {
+      const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks');
+      expect(history.location.pathname).toBe('/drinks');
+      const buttonSearch = screen.getByTestId('search-top-btn');
+      userEvent.click(buttonSearch);
+      const inputField = screen.queryByPlaceholderText(/search/i);
+      const radioFirstLetter = screen.getByTestId('first-letter-search-radio');
+      const searchButton = screen.getByTestId('exec-search-btn');
+      userEvent.type(inputField, 'aa');
+      userEvent.click(radioFirstLetter);
+      userEvent.click(searchButton);
+  
+      expect(alert).toHaveBeenCalledWith(
+        'Your search must have only 1 (one) character',
+      );
+    });
+
+    it.only('Testando se exibe alerta ao digitar mais de uma letra', async () => {
+      // jest.spyOn(window, 'alert').mockImplementation(() => {});
+      global.alert = jest.fn();
+        
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks');
+      expect(history.location.pathname).toBe('/drinks');
+      const buttonSearch = screen.getByTestId('search-top-btn');
+      userEvent.click(buttonSearch);
+      const inputField = screen.queryByPlaceholderText(/search/i);
+      const radioName = screen.getByTestId('name-search-radio');
+      const searchButton = screen.getByTestId('exec-search-btn');
+      userEvent.type(inputField, 'uashaus');
+      userEvent.click(radioName);
+      userEvent.click(searchButton);
+  
+      expect(global.alert).toHaveBeenCalled();
+      /* expect(global.alert).toBeCalledWith(
+        'Sorry, we haven\'t found any recipes for these filters.',
+      ); */
+    });
+  
+    it('Testando Filtro de buscas renderizados na Página', () => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks');
+     
+      const ingredientEl = screen.getByText(/Ingredient/i);
+      const nameEl = screen.getByText(/Name/i);
+      const FirstLetterEl = screen.getByText(/First Letter/i);
+      const btn = screen.getByRole('button', {
+        name: /buscar/i
+      })
+      expect(ingredientEl).toBeDefined();
+      expect(nameEl).toBeDefined();
+      expect(FirstLetterEl).toBeDefined();
+      expect(btn).toBeDefined();
+    });
+  
+    it('Testando se faz requisição corretamente buscando pelo nome', async () => {
+      const fetch = jest.spyOn(global, 'fetch');
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks');
+      expect(history.location.pathname).toBe('/drinks');
+      const btnDrinks = screen.getByTestId('drinks-bottom-btn');
+      expect(btnDrinks).toBeInTheDocument();
+      userEvent.click(btnDrinks);
+  
+      const buttonSearch = screen.getByTestId('search-top-btn');
+      userEvent.click(buttonSearch);
+      const inputField = screen.queryByPlaceholderText(/search/i);
+      const radioName = screen.getByTestId('name-search-radio');
+      const searchButton = screen.getByTestId('exec-search-btn');
+      userEvent.type(inputField, 'margarita');
+      userEvent.click(radioName);
+      userEvent.click(searchButton);
+      expect(fetch).toHaveBeenCalledWith(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita',
+      );
+    });
+  
+   /*  it('Teste Filtro de busca, Primeira Letra da página Principal', async () => {
+      const fetch = jest.spyOn(global, 'fetch');
+      const { history } = renderWithRouter(<App />);
+      history.push('/drinks');
+      
+      const searchIcon = screen.getByTestId('search-top-btn');
+  
+      userEvent.click(searchIcon);
+  
+      const inputSearch = screen.getByTestId('search-input');
+      const radioFirstLetter = screen.getByTestId('first-letter-search-radio');
+      const searchButton = screen.getByTestId('exec-search-btn');
+  
+      userEvent.type(inputSearch, 'a');
+      userEvent.click(radioFirstLetter);
+      userEvent.click(searchButton);
+  
+      expect(fetch).toHaveBeenCalledWith(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a',
+      );
+    }); */
+  })
+
+  /* it('Verifique quando a pesquisa não mostra um resultado', async () => {
     const { history } = renderWithRouter(<App />);
-    history.push('/foods');
+    const globalAlertMock = jest.spyOn(global, 'alert').mockImplementation();
+    history.push('/drinks');
     const buttonSearch = screen.getByTestId('search-top-btn');
     userEvent.click(buttonSearch);
-    const firstLetter = screen.getByText('First letter');
-    userEvent.click(firstLetter);
     const inputField = screen.queryByPlaceholderText(/search/i);
-    userEvent.type(inputField, 'z');
-    const searchButton = screen.getByRole('button', {
-      name: /buscar/i
-    })
-    userEvent.click(searchButton);
-  });
+    expect(inputField).toBeInTheDocument();
+    userEvent.type(inputField, 'uahsuahsua');
+    const getInputIngredients = screen.getByText(/ingredient/i);
+    userEvent.click(getInputIngredients);
+    const getSearchBtn = screen.getByText(/buscar/i);
+    expect(inputField).toHaveValue('uahsuahsua');
+    userEvent.click(getSearchBtn);
+    const findIngredientTitle = await screen.findByText(/gg/i);
+    expect(findIngredientTitle).toBeInTheDocument();
+    expect(globalAlertMock).toHaveBeenCalledTimes(1);
+  }); */
 
-  it('Testa se os botões de filtro funcionam corretamente.', async () => {
+  /* it('Testando se faz requisição corretamente buscando pelo ingrediente', async () => {
+    const fetch = jest.spyOn(global, 'fetch');
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks');
+   
+    const buttonSearch = screen.getByTestId('search-top-btn');
+    userEvent.click(buttonSearch);
+    const inputField = screen.queryByPlaceholderText(/search/i);
+    const radioName = screen.getByTestId('ingredient-search-radio');
+    const searchButton = screen.getByTestId('exec-search-btn');
+    userEvent.type(inputField, 'vodka');
+    userEvent.click(radioName);
+    userEvent.click(searchButton);
+    expect(fetch).toHaveBeenCalledWith(
+      'www.thecocktaildb.com/api/json/v1/1/search.php?i=vodka',
+    );
+  }); */
+
+ /*  it('Testa se os botões de filtro funcionam corretamente.', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/drinks');
     expect(history.location.pathname).toBe('/drinks');
@@ -197,73 +323,9 @@ describe('Testar componente SearchBar', () => {
 
     const recipes = await screen.findByText(/baby eskimo/i);
     expect(recipes).toBeInTheDocument();
-  });
-
-  it('Testando se exibe alerta ao digitar mais de uma letra', async () => {
-    const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-    const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
-    expect(history.location.pathname).toBe('/drinks');
-    const buttonSearch = screen.getByTestId('search-top-btn');
-    userEvent.click(buttonSearch);
-    const inputField = screen.queryByPlaceholderText(/search/i);
-    const radioFirstLetter = screen.getByTestId('first-letter-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
-    userEvent.type(inputField, 'aa');
-    userEvent.click(radioFirstLetter);
-    userEvent.click(searchButton);
-
-    expect(alert).toHaveBeenCalledWith(
-      'Your search must have only 1 (one) character',
-    );
-  });
-
-  it('Testando se faz requisição corretamente buscando pelo nome', async () => {
-    const fetch = jest.spyOn(global, 'fetch');
-    const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
-    expect(history.location.pathname).toBe('/drinks');
-    const btnDrinks = screen.getByTestId('drinks-bottom-btn');
-    expect(btnDrinks).toBeInTheDocument();
-    userEvent.click(btnDrinks);
-
-    const buttonSearch = screen.getByTestId('search-top-btn');
-    userEvent.click(buttonSearch);
-    const inputField = screen.queryByPlaceholderText(/search/i);
-    const radioName = screen.getByTestId('name-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
-    userEvent.type(inputField, 'margarita');
-    userEvent.click(radioName);
-    userEvent.click(searchButton);
-    expect(fetch).toHaveBeenCalledWith(
-      'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita',
-    );
-  });
-
-  
- /*  it('Teste Filtro de busca, Primeira Letra da página Principal', async () => {
-    const { history } = renderWithRouter(<App />);
-    history.push('/drinks');
-    expect(history.location.pathname).toBe('/drinks');
-    const firstLetter = screen.getByText(/first letter/i);
-    const buttonSearch = screen.getByTestId('search-top-btn');
-    userEvent.click(buttonSearch);
-    const inputField = screen.queryByPlaceholderText(/search/i);
-    userEvent.click(firstLetter);
-    userEvent.type(inputField, 'e');
-    const searchButton = screen.getByRole('button', {
-      name: /buscar/i
-    })
-    userEvent.click(searchButton);
-    const eggSearch = await screen.findByText(/egg cream/i)
-    const eggImg = await screen.findByTestId('0-card-img');
-    expect(eggSearch).toBeInTheDocument();
-    expect(eggImg).toHaveAttribute('src', 'https://www.thecocktaildb.com/images/media/drink/mvis731484430445.jpg');
   }); */
-
   
-    /* it('Testando se faz requisição corretamente buscando pelo ingrediente', async () => {
+  /* it('Testando se faz requisição corretamente buscando pelo ingrediente', async () => {
     const fetch = jest.spyOn(global, 'fetch');
     act(() => {
       renderWithRouter(<App />);

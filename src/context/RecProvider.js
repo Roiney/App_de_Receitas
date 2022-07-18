@@ -34,7 +34,7 @@ export default function RecProvider({ children }) {
     const data = await result.json();
     setFoodsInProgress(data.meals);
   };
-  
+
   const reqApiCategoryDrink = async (category) => {
     const url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
     const result = await fetch(url);
