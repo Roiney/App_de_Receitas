@@ -11,6 +11,7 @@ import Drinks from './pages/Drinks';
 import Recipes from './pages/Recipes';
 import DrinksId from './pages/DrinksId';
 import FoodsId from './pages/FoodsId';
+import DrinksProgress from './pages/DrinksProgress';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route exact path="/foods/:id" component={ FoodsId } />
           <Route exact path="/drinks/:id" component={ DrinksId } />
           <Route exact path="/foods/:id/in-progress" component={ RecipeInProgress } />
-          <Route exact path="/drinks/:id/in-progress" component="" />
+          <Route exact path="/drinks/:id/in-progress" component={ DrinksProgress } />
           <Route exact path="/profile" component={ Profile } />
           <Route exact path="/done-recipes" component={ DoneRecipes } />
           <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
