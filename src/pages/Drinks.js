@@ -20,11 +20,11 @@ export default function Drinks(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  }, []);
+  });
 
   useEffect(() => {
     reqApiBtnDrinks();
-  }, []);
+  });
 
   const changeToogle = (category) => {
     if (cat !== category) {

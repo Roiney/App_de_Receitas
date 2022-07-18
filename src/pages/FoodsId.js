@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import contexto from '../context';
 import './Styles/FoodId.css';
@@ -10,7 +10,7 @@ export default function FoodsId(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  }, []);
+  });
 
   useEffect(() => {
     const {
@@ -19,7 +19,7 @@ export default function FoodsId(props) {
       },
     } = props;
     reqApiFoodsID(id);
-  }, []);
+  });
 
   const handleIng = (food) => {
     // console.log(food);
@@ -68,7 +68,7 @@ export default function FoodsId(props) {
       <div>
         <h2>Recomended</h2>
         <div className="parent">
-          {drinksIn12.slice(0, +'2').map((item, index) => (
+          {drinksIn12.slice(0, +'6').map((item, index) => (
             <div data-testid={ `${index}-recomendation-card` } key={ index }>
               <p data-testid={ `${index}-recomendation-title` }>{ item.strDrink }</p>
               <img
@@ -77,7 +77,6 @@ export default function FoodsId(props) {
                 className="imageItem"
               />
             </div>
-          ))}
         </div>
       </div>
     </div>
