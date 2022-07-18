@@ -66,17 +66,16 @@ export default function FoodsId(props) {
       ))}
       <div>
         <h2>Recomended</h2>
-        {/* {drinksIn12.slice(0, +'5').map((item, index) => (
-          <div key={ index }>
-            <p data-testid={ `${index}-card-name` }>{ item.strDrink }</p>
+        {drinksIn12.slice(0, +'2').map((item, index) => (
+          <div data-testid={ `${index}-recomendation-card` } key={ index }>
+            <p>{ item.strDrink }</p>
             <img
-              data-testid={ `${index}-card-img` }
               src={ item.strDrinkThumb }
               alt=""
               className="imageItem"
             />
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );
