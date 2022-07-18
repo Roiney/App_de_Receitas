@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import contexto from '../context';
+import './Styles/FoodId.css';
 
 export default function FoodsId(props) {
   const cont = useContext(contexto);
@@ -66,16 +67,18 @@ export default function FoodsId(props) {
       ))}
       <div>
         <h2>Recomended</h2>
-        {drinksIn12.slice(0, +'2').map((item, index) => (
-          <div data-testid={ `${index}-recomendation-card` } key={ index }>
-            <p>{ item.strDrink }</p>
-            <img
-              src={ item.strDrinkThumb }
-              alt=""
-              className="imageItem"
-            />
-          </div>
-        ))}
+        <div className="parent">
+          {drinksIn12.slice(0, +'2').map((item, index) => (
+            <div data-testid={ `${index}-recomendation-card` } key={ index }>
+              <p data-testid={ `${index}-recomendation-title` }>{ item.strDrink }</p>
+              <img
+                src={ item.strDrinkThumb }
+                alt=""
+                className="imageItem"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
