@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import contexto from '../context';
 
 export default function RecipeInProgress(props) {
+  // const [checkbox, setCheckbox] = useState(false);
+
   const cont = useContext(contexto);
   const { context } = cont;
 
@@ -20,20 +22,25 @@ export default function RecipeInProgress(props) {
   const handleIng = (food) => {
     // console.log(food);
     const obj = Object.entries(food);
-    const ingredients = obj.filter((name) => name[0].includes('strIngredient'))
+    const ingredients = obj
+      .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
     console.log('teste', ingredients);
-    const measure = obj.filter((name) => name[0].includes('strMeasure'))
+    const measure = obj
+      .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
     const array = [];
     for (let i = 0; i < ingredients.length; i += 1) {
       array.push(
-        <li
-          data-testid={ `${i}-ingredient-step` }
-        >
-          {`${ingredients[i][1]} - ${measure[i][1]}`}
-
-        </li>,
+        <span className="check" data-testid={ `${i}-ingredient-step` }>
+          <input
+            type="checkbox"
+            className="space"
+          />
+          <li>
+            {`${ingredients[i][1]} - ${measure[i][1]}`}
+          </li>
+        </span>,
       );
     }
     return array;

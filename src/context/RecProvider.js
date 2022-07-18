@@ -17,6 +17,14 @@ export default function RecProvider({ children }) {
   const [filterCategory, setFilterCategory] = useState([]);
   const [filterCategoryDrink, setFilterCategoryDrink] = useState([]);
   const [foodsInProgress, setFoodsInProgress] = useState([]);
+  const [drinksInProgress, setDrinksInProgress] = useState([]);
+
+  const reqApiProgressDrinks = async (id) => {
+    const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+    const result = await fetch(url);
+    const data = await result.json();
+    setDrinksInProgress(data.drinks);
+  };
 
   const reqApiProgressFoods = async (id) => {
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
@@ -114,6 +122,8 @@ export default function RecProvider({ children }) {
     resetFiltersDrink,
     reqApiProgressFoods,
     foodsInProgress,
+    drinksInProgress,
+    reqApiProgressDrinks,
   };
 
   return (
