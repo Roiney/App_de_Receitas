@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -8,12 +8,14 @@ import contexto from '../context';
 export default function Drinks(props) {
   const { history } = props;
 
+  const [cat, setCat] = useState('');
+
   const cont = useContext(contexto);
   const { context } = cont;
 
   const { drink, reqApiDrinks, drinksIn12, btnDrinks,
     reqApiBtnDrinks, filterCategoryDrink, reqApiCategoryDrink,
-    setFilterCategoryDrink } = context;
+    setFilterCategoryDrink, resetFilters } = context;
 
   useEffect(() => {
     reqApiDrinks();
@@ -22,6 +24,15 @@ export default function Drinks(props) {
   useEffect(() => {
     reqApiBtnDrinks();
   }, []);
+
+  const changeToogle = (category) => {
+    if (cat !== category) {
+      setCat(category);
+      return reqApiCategoryDrink(category);
+    }
+    setCat('');
+    resetFilters();
+  };
 
   const handleCategoryFilter = (category) => category
     .slice(0, +'12').map((item, index) => (
@@ -57,7 +68,7 @@ export default function Drinks(props) {
           <button
             type="button"
             data-testid={ `${button.strCategory}-category-filter` }
-            onClick={ () => reqApiCategoryDrink(button.strCategory) }
+            onClick={ () => changeToogle(button.strCategory) }
           >
             {button.strCategory}
           </button>

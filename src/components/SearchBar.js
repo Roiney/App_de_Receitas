@@ -13,23 +13,25 @@ export default function SearchBar(props) {
 
   const drinksFetch = (call) => {
     const { drinks } = call;
-    if (drinks !== null) {
-      if (drinks.length === 1) {
-        history.push(`/drinks/${drinks[0].idDrink}`);
-      } else if (drinks.length === 0) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      }
+    if (Object.values(call).includes(null)) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (drinks.length === 1) {
+      setFetch(call);
+      history.push(`/drinks/${drinks[0].idDrink}`);
+    } else {
+      setFetch(call);
     }
   };
 
   const foodsFetch = (call) => {
     const { meals } = call;
-    if (meals !== null) {
-      if (meals.length === 1) {
-        history.push(`/foods/${meals[0].idMeal}`);
-      } else if (meals.length === 0) {
-        global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      }
+    if (Object.values(call).includes(null)) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    } else if (meals.length === 1) {
+      setFetch(call);
+      history.push(`/foods/${meals[0].idMeal}`);
+    } else {
+      setFetch(call);
     }
   };
 
@@ -48,7 +50,7 @@ export default function SearchBar(props) {
       } else {
         const fetchApi = await fetch(`https://${api}.com/api/json/v1/1/${end}${inputSearch}`);
         const fetchJson = await fetchApi.json();
-        setFetch(fetchJson);
+        // setFetch(fetchJson);
         if (title === 'Drinks') {
           drinksFetch(fetchJson);
         } else if (title === 'Foods') {
@@ -58,7 +60,7 @@ export default function SearchBar(props) {
     } else {
       const fetchApi = await fetch(`https://${api}.com/api/json/v1/1/${end}${inputSearch}`);
       const fetchJson = await fetchApi.json();
-      setFetch(fetchJson);
+      // setFetch(fetchJson);
       if (title === 'Drinks') {
         drinksFetch(fetchJson);
       } else if (title === 'Foods') {
