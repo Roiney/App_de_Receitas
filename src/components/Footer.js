@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Styles/Footer.css';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
 
 function Footer(props) {
   const { history } = props;
@@ -25,7 +27,7 @@ function Footer(props) {
           src="../images/drinkIcon.svg"
           onClick={ drinkRedirect }
         >
-          <img src="../images/drinkIcon.svg" alt="dreakIcon" />
+          <img src={ drinkIcon } alt="dreakIcon" />
         </button>
         <button
           type="button"
@@ -36,7 +38,7 @@ function Footer(props) {
           onClick={ foodRedirect }
         >
           <img
-            src="../images/mealIcon.svg"
+            src={ mealIcon }
             alt="mealIcon"
           />
         </button>

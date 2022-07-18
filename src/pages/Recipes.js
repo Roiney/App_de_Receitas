@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
@@ -7,7 +7,7 @@ import contexto from '../context';
 
 export default function Recipes(props) {
   const { history } = props;
-
+  const [currentCategory, setCurrentCategory] = useState('');
   const cont = useContext(contexto);
   const { context } = cont;
 
@@ -51,11 +51,12 @@ export default function Recipes(props) {
     ));
 
   const changeToogle = (category) => {
-    if (filterCategory !== category) {
+    if (currentCategory !== category) {
+      setCurrentCategory(category);
       return reqApiCategory(category);
     }
+    setCurrentCategory('');
     resetFilters();
-    console.log('reset');
   };
 
   return (

@@ -22,7 +22,6 @@ export default function RecProvider({ children }) {
     const result = await fetch(url);
     const data = await result.json();
     setFilterCategoryDrink(data.drinks);
-    console.log((data.drinks).slice(0, +'12'));
   };
 
   const reqApiCategory = async (category) => {
@@ -30,11 +29,15 @@ export default function RecProvider({ children }) {
     const result = await fetch(url);
     const data = await result.json();
     setFilterCategory(data.meals);
-    console.log((data.meals).slice(0, +'12'));
   };
 
   const resetFilters = () => {
     setFilterCategory([]);
+    setFilterCategoryDrink([]);
+  };
+
+  const resetFiltersDrink = () => {
+    setFilterCategoryDrink([]);
   };
 
   const reqApiFoods = async () => {
@@ -49,7 +52,6 @@ export default function RecProvider({ children }) {
     const result = await fetch(url);
     const data = await result.json();
     setDrinksIn12(data.drinks);
-    console.log(drinksIn12);
   };
 
   const reqApiBtnFoods = async () => {
@@ -64,7 +66,6 @@ export default function RecProvider({ children }) {
     const result = await fetch(url);
     const data = await result.json();
     setBtnDrinks(data.drinks);
-    console.log(btnDrinks);
   };
 
   const setFetch = (apiReq) => {
@@ -102,6 +103,7 @@ export default function RecProvider({ children }) {
     setFilterCategoryDrink,
     setFilterCategory,
     resetFilters,
+    resetFiltersDrink,
   };
 
   return (
