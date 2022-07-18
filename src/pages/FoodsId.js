@@ -74,7 +74,7 @@ export default function FoodsId(props) {
               <img
                 src={ item.strDrinkThumb }
                 alt=""
-                className="imageItem"
+                className="imageItem-1"
               />
             </div>
           ))}
