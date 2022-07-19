@@ -20,11 +20,11 @@ export default function Drinks(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  });
+  }, []);
 
   useEffect(() => {
     reqApiBtnDrinks();
-  });
+  }, []);
 
   const changeToogle = (category) => {
     if (cat !== category) {
@@ -75,6 +75,7 @@ export default function Drinks(props) {
           </button>
         </span>
       ))}
+      { console.log(drinksIn12) }
       {filterCategoryDrink.length
         ? handleCategoryFilter(filterCategoryDrink)
         : (drink.length ? drink : drinksIn12)

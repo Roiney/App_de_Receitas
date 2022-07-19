@@ -14,6 +14,13 @@ export default function DrinksProgress(props) {
       },
     } = props;
     reqApiProgressDrinks(id);
+  }, []);
+
+  document.querySelectorAll('.space').forEach((item) => {
+    item.addEventListener('change', (e) => {
+      const span = e.target.parentNode.querySelector('.ing');
+      span.style.textDecoration = (e.target.checked) ? 'line-through' : '';
+    });
   });
 
   const handleIng = (drink) => {
@@ -28,7 +35,7 @@ export default function DrinksProgress(props) {
       array.push(
         <span className="check" data-testid={ `${i}-ingredient-step` }>
           <input type="checkbox" className="space" />
-          <li>
+          <li className="ing">
             {`${ingredients[i][1]} - ${measure[i][1]}`}
           </li>
 

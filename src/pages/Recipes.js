@@ -25,11 +25,11 @@ export default function Recipes(props) {
 
   useEffect(() => {
     reqApiFoods();
-  });
+  }, []);
 
   useEffect(() => {
     reqApiBtnFoods();
-  });
+  }, []);
 
   const handleCategoryFilter = (category) => category
     .slice(0, +'12').map((item, index) => (

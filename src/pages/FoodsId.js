@@ -10,7 +10,7 @@ export default function FoodsId(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  });
+  }, []);
 
   useEffect(() => {
     const {
@@ -19,7 +19,7 @@ export default function FoodsId(props) {
       },
     } = props;
     reqApiFoodsID(id);
-  });
+  }, []);
 
   const handleIng = (food) => {
     // console.log(food);
@@ -27,7 +27,6 @@ export default function FoodsId(props) {
     const ingredients = obj
       .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
-    // console.log('teste', ingredients);
     const measure = obj
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
@@ -44,7 +43,6 @@ export default function FoodsId(props) {
 
   return (
     <div>
-      Foods Id
       {foodId.map((food) => (
         <div key={ food.idMeal }>
           <img src={ food.strMealThumb } alt="" data-testid="recipe-photo" />
