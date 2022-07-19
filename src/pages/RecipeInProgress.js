@@ -1,9 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import contexto from '../context';
 
+const copy = require('clipboard-copy');
+
 export default function RecipeInProgress(props) {
-  // const [checkbox, setCheckbox] = useState(false);
+  const [link, setLink] = useState('');
+  const [fav, setFav] = useState('Favoritar');
+  const { pathname } = useLocation();
+  // const [save, setSave] = useState([]);
 
   const cont = useContext(contexto);
   const { context } = cont;
@@ -17,15 +23,36 @@ export default function RecipeInProgress(props) {
       },
     } = props;
     reqApiProgressFoods(id);
+  }, []);
+
+  document.querySelectorAll('.space').forEach((item) => {
+    const {
+      match: {
+        params: { id },
+      },
+    } = props;
+    item.addEventListener('change', (e) => {
+      const span = e.target.parentNode.querySelector('.ing');
+      span.style.textDecoration = e.target.checked ? 'line-through' : '';
+      localStorage.setItem(
+        'inProgressRecipes',
+        JSON.stringify({
+          meals: {
+            [id]: e.target.name,
+          },
+        }),
+      );
+      JSON.parse(localStorage.getItem('inProgressRecipes'));
+    });
   });
 
   const handleIng = (food) => {
-    // console.log(food);
     const obj = Object.entries(food);
     const ingredients = obj
       .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
-    console.log('teste', ingredients);
+    console.log(ingredients);
+    // setSave(ingredients);
     const measure = obj
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
@@ -35,16 +62,30 @@ export default function RecipeInProgress(props) {
         <span className="check" data-testid={ `${i}-ingredient-step` }>
           <input
             type="checkbox"
+            name={ ingredients[i][1] }
             className="space"
           />
-          <li>
-            {`${ingredients[i][1]} - ${measure[i][1]}`}
-          </li>
+          <li className="ing">{`${ingredients[i][1]} - ${measure[i][1]}`}</li>
         </span>,
       );
     }
     return array;
   };
+
+  const clickLink = () => {
+    setTimeout(() => {
+      setLink('');
+    }, +'3000');
+    setLink('Link copied!');
+    copy(
+      `http://localhost:3000/${pathname.split('/')[1]}/${
+        pathname.split('/')[2]
+      }`,
+    );
+  };
+
+  const clickFav = () => (
+    fav === 'Favoritar' ? setFav('Favoritou!!!') : setFav('Favoritar'));
 
   return (
     <div>
@@ -53,11 +94,12 @@ export default function RecipeInProgress(props) {
           <img src={ food.strMealThumb } alt="" data-testid="recipe-photo" />
           <p data-testid="recipe-title">{food.strMeal}</p>
           <p data-testid="recipe-category">{food.strCategory}</p>
-          <button type="button" data-testid="share-btn">
+          <button type="button" data-testid="share-btn" onClick={ clickLink }>
             Compartilhar
           </button>
-          <button type="button" data-testid="favorite-btn">
-            Favoritar
+          {link && <p>{link}</p>}
+          <button type="button" data-testid="favorite-btn" onClick={ clickFav }>
+            {fav || 'Favoritar'}
           </button>
           <ul>{handleIng(food)}</ul>
           <p data-testid="instructions">{food.strInstructions}</p>
