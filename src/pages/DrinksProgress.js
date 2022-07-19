@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import contexto from '../context';
 
 export default function DrinksProgress(props) {
+  const history = useHistory();
   const cont = useContext(contexto);
   const { context } = cont;
   const { drinksInProgress, reqApiProgressDrinks } = context;
@@ -45,6 +47,10 @@ export default function DrinksProgress(props) {
     return array;
   };
 
+  const directClick = () => {
+    history.push('/done-recipes');
+  };
+
   return (
     <div>
       {drinksInProgress.map((drink) => (
@@ -60,7 +66,7 @@ export default function DrinksProgress(props) {
           </button>
           <ul>{handleIng(drink)}</ul>
           <p data-testid="instructions">{drink.strInstructions}</p>
-          <button type="button" data-testid="finish-recipe-btn">
+          <button type="button" data-testid="finish-recipe-btn" onClick={ directClick }>
             Finalizar
           </button>
         </div>
