@@ -68,7 +68,7 @@ export default function FoodsId(props) {
       <div>
         <h2>Recomended</h2>
         <div className="parent">
-          {drinksIn12.slice(0, +'').map((item, index) => (
+          {drinksIn12.slice(0, +'6').map((item, index) => (
             <div data-testid={ `${index}-recomendation-card` } key={ index }>
               <p data-testid={ `${index}-recomendation-title` }>{ item.strDrink }</p>
               <img
