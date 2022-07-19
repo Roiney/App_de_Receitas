@@ -61,7 +61,7 @@ export default function Recipes(props) {
 
   return (
     <div>
-      <Header searchIcon="visible" title="Foods" history={ history } />
+      <Header searchIcon="visible" title="Foods" />
       <button
         type="button"
         data-testid="All-category-filter"

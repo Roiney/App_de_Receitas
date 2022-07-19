@@ -10,7 +10,7 @@ export default function RecipeInProgress(props) {
   const [link, setLink] = useState('');
   const [fav, setFav] = useState('Favoritar');
   const { pathname } = useLocation();
-  // const [save, setSave] = useState([]);
+  const [save, setSave] = useState([]);
 
   const cont = useContext(contexto);
   const { context } = cont;
@@ -18,6 +18,12 @@ export default function RecipeInProgress(props) {
   const { reqApiProgressFoods, foodsInProgress } = context;
 
   useEffect(() => {
+    const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (getItens === null) {
+      setSave([getItens]);
+    } else {
+      setSave(getItens);
+    }
     const {
       match: {
         params: { id },
@@ -26,26 +32,43 @@ export default function RecipeInProgress(props) {
     reqApiProgressFoods(id);
   }, []);
 
-  document.querySelectorAll('.space').forEach((item) => {
-    const {
-      match: {
-        params: { id },
-      },
-    } = props;
-    item.addEventListener('change', (e) => {
+  const handleClass = (item) => {
+    const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (getItens !== null && getItens.includes(item)) {
+      return 'through';
+    }
+  };
+
+  const handleCheck = (item) => {
+    if (save !== null && save.includes(item)) {
+      return true;
+    }
+  };
+
+  const handleChange = (e) => {
+    // localStorage.setItem('inProgressRecipes', JSON.stringify());
+    if (e.target.checked) {
+      setSave((prevState) => [...prevState, e.target.name]);
+      const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      if (getItens === null) {
+        localStorage.setItem('inProgressRecipes', JSON.stringify([e.target.name]));
+      } else {
+        localStorage.setItem(
+          'inProgressRecipes',
+          JSON.stringify([...getItens, e.target.name]),
+        );
+      }
       const span = e.target.parentNode.querySelector('.ing');
-      span.style.textDecoration = e.target.checked ? 'line-through' : '';
-      localStorage.setItem(
-        'inProgressRecipes',
-        JSON.stringify({
-          meals: {
-            [id]: e.target.name,
-          },
-        }),
-      );
-      JSON.parse(localStorage.getItem('inProgressRecipes'));
-    });
-  });
+      span.style.textDecoration = 'line-through';
+    } else {
+      const span = e.target.parentNode.querySelector('.ing');
+      span.style.textDecoration = 'none';
+      const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const newItens = getItens.filter((item) => item !== e.target.name);
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newItens));
+      setSave(newItens);
+    }
+  };
 
   const handleIng = (food) => {
     const obj = Object.entries(food);
@@ -65,8 +88,15 @@ export default function RecipeInProgress(props) {
             type="checkbox"
             name={ ingredients[i][1] }
             className="space"
+            onChange={ handleChange }
+            checked={ handleCheck(ingredients[i][1]) }
           />
-          <li className="ing">{`${ingredients[i][1]} - ${measure[i][1]}`}</li>
+          <li
+            className={ `ing ${handleClass(ingredients[i][1])}` }
+            // style={ { textDecoration: 'line-through' } }
+          >
+            {`${ingredients[i][1]} - ${measure[i][1]}`}
+          </li>
         </span>,
       );
     }
@@ -108,7 +138,11 @@ export default function RecipeInProgress(props) {
           </button>
           <ul>{handleIng(food)}</ul>
           <p data-testid="instructions">{food.strInstructions}</p>
-          <button type="button" data-testid="finish-recipe-btn" onClick={ directClick }>
+          <button
+            type="button"
+            data-testid="finish-recipe-btn"
+            onClick={ directClick }
+          >
             Finalizar
           </button>
         </div>
