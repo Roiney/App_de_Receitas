@@ -34,7 +34,8 @@ describe('teste na pagina /foods', () => {
   it('Testando se exibe alerta quando nenhuma receita é encontrada', async () => {
     jest.spyOn(global, 'fetch');
     const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
     
     const searchBtn = await screen.findByTestId('search-top-btn');
     userEvent.click(searchBtn);
@@ -55,7 +56,8 @@ describe('teste na pagina /foods', () => {
   it('Testando se a busca por categoria funciona', async () => {
     jest.spyOn(global, 'fetch');
 
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods');
 
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(

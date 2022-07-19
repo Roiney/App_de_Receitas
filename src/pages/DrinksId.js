@@ -9,7 +9,7 @@ export default function DrinksId(props) {
 
   useEffect(() => {
     reqApiFoods();
-  });
+  }, []);
 
   useEffect(() => {
     const {
@@ -18,7 +18,7 @@ export default function DrinksId(props) {
       },
     } = props;
     reqApiDrinksID(id);
-  });
+  }, []);
 
   const handleIng = (drink) => {
     const obj = Object.entries(drink);
@@ -46,7 +46,6 @@ export default function DrinksId(props) {
 
   return (
     <div>
-      Foods Id
       {drinkId.map((drink) => (
         <div key={ drink.strDrink }>
           <img src={ drink.strDrinkThumb } alt="" data-testid="recipe-photo" />
