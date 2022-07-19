@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import contexto from '../context';
 
 const copy = require('clipboard-copy');
 
 export default function RecipeInProgress(props) {
+  const history = useHistory();
   const [link, setLink] = useState('');
   const [fav, setFav] = useState('Favoritar');
   const { pathname } = useLocation();
@@ -84,6 +85,10 @@ export default function RecipeInProgress(props) {
     );
   };
 
+  const directClick = () => {
+    history.push('/done-recipes');
+  };
+
   const clickFav = () => (
     fav === 'Favoritar' ? setFav('Favoritou!!!') : setFav('Favoritar'));
 
@@ -103,7 +108,7 @@ export default function RecipeInProgress(props) {
           </button>
           <ul>{handleIng(food)}</ul>
           <p data-testid="instructions">{food.strInstructions}</p>
-          <button type="button" data-testid="finish-recipe-btn">
+          <button type="button" data-testid="finish-recipe-btn" onClick={ directClick }>
             Finalizar
           </button>
         </div>
