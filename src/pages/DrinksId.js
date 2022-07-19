@@ -9,7 +9,7 @@ export default function DrinksId(props) {
 
   useEffect(() => {
     reqApiFoods();
-  }, []);
+  });
 
   useEffect(() => {
     const {
@@ -18,13 +18,15 @@ export default function DrinksId(props) {
       },
     } = props;
     reqApiDrinksID(id);
-  }, []);
+  });
 
   const handleIng = (drink) => {
     const obj = Object.entries(drink);
+    console.log(obj);
     const ingredients = obj
       .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
+    console.log('teste', ingredients);
     const measure = obj
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
@@ -32,7 +34,10 @@ export default function DrinksId(props) {
     for (let i = 0; i < ingredients.length; i += 1) {
       array.push(
         <li data-testid={ `${i}-ingredient-name-and-measure` }>
-          {`${ingredients[i][1]} - ${measure[i][1]}`}
+          <span>{ingredients[i][1]}</span>
+          <span>
+            {measure[i] && ` - ${measure[i][1]}`}
+          </span>
         </li>,
       );
     }
@@ -41,7 +46,8 @@ export default function DrinksId(props) {
 
   return (
     <div>
-      { drinkId.map((drink) => (
+      Foods Id
+      {drinkId.map((drink) => (
         <div key={ drink.strDrink }>
           <img src={ drink.strDrinkThumb } alt="" data-testid="recipe-photo" />
           <p data-testid="recipe-title">{drink.strDrink}</p>
