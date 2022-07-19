@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import contexto from '../context';
+import './Styles/DrinkId.css';
 
 export default function Drinks(props) {
   const { history } = props;
@@ -19,11 +20,11 @@ export default function Drinks(props) {
 
   useEffect(() => {
     reqApiDrinks();
-  }, []);
+  });
 
   useEffect(() => {
     reqApiBtnDrinks();
-  }, []);
+  });
 
   const changeToogle = (category) => {
     if (cat !== category) {

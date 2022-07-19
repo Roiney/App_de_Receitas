@@ -1,0 +1,9 @@
+.parent {
+    scroll-snap-type: x mandatory;
+    display: flex;
+}
+
+.parent img {
+    width: 150px;
+    margin-right: 20px
+}
