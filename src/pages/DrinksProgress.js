@@ -14,7 +14,7 @@ export default function DrinksProgress(props) {
       },
     } = props;
     reqApiProgressDrinks(id);
-  }, []);
+  });
 
   const handleIng = (drink) => {
     const obj = Object.entries(drink);

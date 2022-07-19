@@ -17,7 +17,7 @@ export default function RecipeInProgress(props) {
       },
     } = props;
     reqApiProgressFoods(id);
-  }, []);
+  });
 
   const handleIng = (food) => {
     // console.log(food);
