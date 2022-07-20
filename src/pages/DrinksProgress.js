@@ -29,7 +29,6 @@ export default function DrinksProgress(props) {
     const obj = Object.entries(drink);
     const ingredients = obj.filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
-    console.log('teste', ingredients);
     const measure = obj.filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
     const array = [];

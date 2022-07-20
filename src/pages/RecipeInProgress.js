@@ -52,8 +52,6 @@ export default function RecipeInProgress(props) {
     const ingredients = obj
       .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
-    console.log(ingredients);
-    // setSave(ingredients);
     const measure = obj
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
