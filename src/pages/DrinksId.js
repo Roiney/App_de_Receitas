@@ -1,15 +1,19 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import contexto from '../context';
+import Recomended from '../components/Recomended';
+import TwelveItems from '../components/TwelveItems';
+import StartRecipe from '../components/StartRecipe';
 
 export default function DrinksId(props) {
   const cont = useContext(contexto);
+  const [identificador, setIdentificador] = useState('');
   const { context } = cont;
   const { reqApiDrinksID, drinkId, reqApiFoods, foodsIn12 } = context;
 
   useEffect(() => {
     reqApiFoods();
-  });
+  }, []);
 
   useEffect(() => {
     const {
@@ -17,58 +21,14 @@ export default function DrinksId(props) {
         params: { id },
       },
     } = props;
+    setIdentificador(id);
     reqApiDrinksID(id);
-  });
-
-  const handleIng = (drink) => {
-    const obj = Object.entries(drink);
-    console.log(obj);
-    const ingredients = obj
-      .filter((name) => name[0].includes('strIngredient'))
-      .filter((item) => item[1] !== '' && item[1] !== null);
-    console.log('teste', ingredients);
-    const measure = obj
-      .filter((name) => name[0].includes('strMeasure'))
-      .filter((item) => item[1] !== '' && item[1] !== null);
-    const array = [];
-    for (let i = 0; i < ingredients.length; i += 1) {
-      array.push(
-        <li data-testid={ `${i}-ingredient-name-and-measure` }>
-          <span>{ingredients[i][1]}</span>
-          <span>
-            {measure[i] && ` - ${measure[i][1]}`}
-          </span>
-        </li>,
-      );
-    }
-    return array;
-  };
-
+  }, []);
   return (
     <div>
-      Foods Id
-      {drinkId.map((drink) => (
-        <div key={ drink.strDrink }>
-          <img src={ drink.strDrinkThumb } alt="" data-testid="recipe-photo" />
-          <p data-testid="recipe-title">{drink.strDrink}</p>
-          <p data-testid="recipe-category">{drink.strAlcoholic}</p>
-          <ul>{handleIng(drink)}</ul>
-          <p data-testid="instructions">{drink.strInstructions}</p>
-        </div>
-      ))}
-      <h2>Recomended</h2>
-      <div className="parent">
-        {foodsIn12.slice(0, +'6').map((item, index) => (
-          <div
-            data-testid={ `${index}-recomendation-card` }
-            key={ index }
-            className="carousel"
-          >
-            <p data-testid={ `${index}-recomendation-title` }>{item.strMeal}</p>
-            <img src={ item.strMealThumb } alt="" className="imageItem" />
-          </div>
-        ))}
-      </div>
+      <TwelveItems drinkId={ drinkId } type="drink" />
+      <Recomended in12={ foodsIn12 } type="food" />
+      <StartRecipe type="drink" id={ identificador } />
     </div>
   );
 }
