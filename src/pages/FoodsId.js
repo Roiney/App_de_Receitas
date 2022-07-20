@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import Recomended from '../components/Recomended';
 import TwelveItems from '../components/TwelveItems';
+import Recomended from '../components/Recomended';
 import StartRecipe from '../components/StartRecipe';
 import contexto from '../context';
 
