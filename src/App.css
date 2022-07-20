@@ -10,10 +10,6 @@
   width: 100%;
 }
 
-.imageItem {
-  width: 50%;
-}
-
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
@@ -30,21 +26,6 @@
 .through {
   text-decoration: line-through;
 }
-
-
-/*
-#iceLeft {
-  animation: clink .8s infinite ease;
-  opacity: 0.6;
-  transform-origin: 36px 66px;
-}
-
-#iceRight {
-  animation: clink .8s .2s infinite ease;
-  opacity: 0.6;
-  transform-origin: 60px 78px;
-}
-*/
 
 .meals > .logo {
   animation: shake 1.5s infinite ease;
@@ -82,4 +63,75 @@
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.scroll-footer {
+  display: flex;
+  overflow-x: auto;
+  position: relative;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  width: 100vw;
+}
+
+.item-recomended {
+  display: inline;
+  flex: none;
+  scroll-snap-align: start;
+  width: 50%;
+}
+
+.imageItem {
+  object-fit: cover;
+  width: 100%;
+}
+
+.div-button-right {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  left: 0;
+  position: absolute;
+}
+
+.div-button-left {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+.btn-right {
+  height: 20%;
+  z-index: 10;
+}
+
+.btn-left {
+  height: 20%;
+  z-index: 10;
+}
+
+.scroll-item {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100vw;
+}
+
+.visible {
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none;
+}
+
+.btn-start-recipe {
+  bottom: 0;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  z-index: 30;
 }

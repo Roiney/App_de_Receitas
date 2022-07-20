@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import contexto from '../context';
-import './Styles/DrinkId.css';
 
 export default function Drinks(props) {
   const { history } = props;
@@ -75,7 +74,6 @@ export default function Drinks(props) {
           </button>
         </span>
       ))}
-      { console.log(drinksIn12) }
       {filterCategoryDrink.length
         ? handleCategoryFilter(filterCategoryDrink)
         : (drink.length ? drink : drinksIn12)
