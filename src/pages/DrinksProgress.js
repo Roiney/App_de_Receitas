@@ -127,6 +127,7 @@ export default function DrinksProgress(props) {
             className="space"
             onChange={ handleChange }
             checked={ handleCheck(ingredients[i][1]) }
+            data-testid={ ingredients[i][1] }
           />
           <li
             className={ `ing ${handleClass(ingredients[i][1])}` }
