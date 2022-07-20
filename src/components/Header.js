@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import contexto from '../context';
 import SearchBar from './SearchBar';
@@ -7,7 +8,8 @@ import profileImg from '../images/profileIcon.svg';
 
 // necessário passar o history como props para o componente header
 export default function Header(props) {
-  const { history, title, searchIcon } = props;
+  const history = useHistory();
+  const { title, searchIcon } = props;
 
   const cont = useContext(contexto);
   const { context } = cont;

@@ -24,7 +24,6 @@ export default function DrinksId(props) {
     setIdentificador(id);
     reqApiDrinksID(id);
   }, []);
-
   return (
     <div>
       <TwelveItems drinkId={ drinkId } type="drink" />

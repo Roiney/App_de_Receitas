@@ -23,6 +23,10 @@
   margin-right: 20px;
 }
 
+.through {
+  text-decoration: line-through;
+}
+
 .meals > .logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
@@ -81,7 +85,6 @@
   object-fit: cover;
   width: 100%;
 }
-
 
 .div-button-right {
   align-items: center;
