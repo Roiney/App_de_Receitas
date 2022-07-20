@@ -11,6 +11,8 @@ export default function RecipeInProgress(props) {
   const [fav, setFav] = useState('Favoritar');
   const { pathname } = useLocation();
   const [save, setSave] = useState([]);
+  /* const [disabled, setDisabled] = useState(true);
+  const [ing, setIng] = useState(false); */
 
   const cont = useContext(contexto);
   const { context } = cont;
@@ -75,6 +77,7 @@ export default function RecipeInProgress(props) {
     const ingredients = obj
       .filter((name) => name[0].includes('strIngredient'))
       .filter((item) => item[1] !== '' && item[1] !== null);
+    // setIng(ingredients);
     const measure = obj
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
@@ -100,6 +103,20 @@ export default function RecipeInProgress(props) {
     }
     return array;
   };
+
+  /*  const enabledButton = () => {
+    // const obj = Object.entries(foodsInProgress);
+    const ingredients = Object.entries(foodsInProgress)
+      .filter((name) => name[0].includes('strIngredient'))
+      .filter((item) => item[1] !== '' && item[1] !== null);
+    console.log(ingredients);
+    if (save.length === ingredients.length) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }; */
+  // console.log(enabledButton);
 
   const clickLink = () => {
     setTimeout(() => {
@@ -140,6 +157,7 @@ export default function RecipeInProgress(props) {
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ directClick }
+            disabled={ disabled }
           >
             Finalizar
           </button>
