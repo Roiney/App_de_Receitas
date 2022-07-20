@@ -15,8 +15,6 @@ export default function RecipeInProgress(props) {
   const [itemFD, setItemFD] = useState('');
   const { pathname } = useLocation();
   const [save, setSave] = useState([]);
-  const [disabled, setDisabled] = useState(true);
-  // const [check, setCheck] = useState('');
 
   const cont = useContext(contexto);
   const { context } = cont;
@@ -25,6 +23,7 @@ export default function RecipeInProgress(props) {
 
   useEffect(() => {
     const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (getItens === null) {
       setSave([getItens]);
     } else {
@@ -35,17 +34,29 @@ export default function RecipeInProgress(props) {
         params: { id },
       },
     } = props;
-    reqApiProgressFoods(id);
-  }, []);
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    reqApiProgressFoods(id);
+
     if (favorites !== null) {
       setFav(favorites);
     } const texto = pathname.replace('/foods/', '');
     const text = texto.replace('/in-progress', '');
     setItemFD(text);
   }, []);
+
+  const returnDisabled = () => {
+    if (foodsInProgress[0]) {
+      const obj = Object.entries(foodsInProgress[0]);
+      const ingredients = obj
+        .filter((name) => name[0].includes('strIngredient'))
+        .filter((item) => item[1] !== '' && item[1] !== null);
+      const ingMapped = ingredients.map((itemIng) => itemIng[1]);
+      const filterSave = save.filter((sav) => ingMapped.includes(sav));
+
+      if (ingredients.length === filterSave.length) return false;
+      if (ingredients.length !== filterSave.length) return true;
+    }
+  };
 
   const retornaIcone = () => {
     if (fav[0] === null) {
@@ -72,7 +83,6 @@ export default function RecipeInProgress(props) {
   };
 
   const handleChange = (e) => {
-    // localStorage.setItem('inProgressRecipes', JSON.stringify());
     if (e.target.checked) {
       setSave((prevState) => [...prevState, e.target.name]);
       const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -105,7 +115,6 @@ export default function RecipeInProgress(props) {
       .filter((name) => name[0].includes('strMeasure'))
       .filter((item) => item[1] !== '' && item[1] !== null);
     const array = [];
-    // setCheck(ingredients.length);
     for (let i = 0; i < ingredients.length; i += 1) {
       array.push(
         <span className="check" data-testid={ `${i}-ingredient-step` }>
@@ -158,32 +167,6 @@ export default function RecipeInProgress(props) {
     }
   };
 
-  useEffect(() => {
-    /* const items = foodsInProgress.map((food) => (
-      <ul>
-        {handleIng(food)}
-      </ul>
-    )); */
-    console.log(foodsInProgress);
-    const enabledButton = () => {
-      // const obj = Object.entries(foodsInProgress);
-      const checkB = document.getElementsByTagName('input');
-      console.log('check', checkB.length);
-      console.log('save', save.length);
-      if (save.length > 0 && save.length === checkB.length) {
-        setDisabled(false);
-      } else {
-        setDisabled(true);
-      }
-    };
-    enabledButton();
-  }, [save]);
-  const obj = Object.entries(foodsInProgress)[0];
-  const ingredients = obj
-    .filter((name) => name[0].includes('strIngredient'))
-    .filter((item) => item[1] !== '' && item[1] !== null);
-  console.log(ingredients);
-
   const clickLink = () => {
     setTimeout(() => {
       setLink('');
@@ -232,7 +215,7 @@ export default function RecipeInProgress(props) {
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ directClick }
-            disabled={ disabled }
+            disabled={ returnDisabled() }
           >
             Finalizar
           </button>

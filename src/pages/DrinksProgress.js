@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import contexto from '../context';
+import share from '../images/shareIcon.svg';
+import vazio from '../images/whiteHeartIcon.svg';
+import preenchido from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -9,7 +12,8 @@ export default function DrinksProgress(props) {
   const history = useHistory();
   const [save, setSave] = useState([]);
   const [link, setLink] = useState('');
-  const [fav, setFav] = useState('Favoritar');
+  const [fav, setFav] = useState([]);
+  const [itemFD, setItemFD] = useState('');
   const { pathname } = useLocation();
 
   const cont = useContext(contexto);
@@ -18,6 +22,7 @@ export default function DrinksProgress(props) {
 
   useEffect(() => {
     const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
     if (getItens === null) {
       setSave([getItens]);
     } else {
@@ -28,8 +33,41 @@ export default function DrinksProgress(props) {
         params: { id },
       },
     } = props;
+
     reqApiProgressDrinks(id);
+
+    if (favorites !== null) {
+      setFav(favorites);
+    } const texto = pathname.replace('/drinks/', '');
+    const text = texto.replace('/in-progress', '');
+    console.log(text);
+    setItemFD(text);
   }, []);
+
+  const returnDisabled = () => {
+    if (drinksInProgress[0]) {
+      const obj = Object.entries(drinksInProgress[0]);
+      const ingredients = obj
+        .filter((name) => name[0].includes('strIngredient'))
+        .filter((item) => item[1] !== '' && item[1] !== null);
+      const ingMapped = ingredients.map((itemIng) => itemIng[1]);
+      const filterSave = save.filter((sav) => ingMapped.includes(sav));
+
+      if (ingredients.length === filterSave.length) return false;
+      if (ingredients.length !== filterSave.length) return true;
+    }
+  };
+
+  const retornaIcone = () => {
+    if (fav[0] === null) {
+      return vazio;
+    }
+    const ids = fav.map((f) => f.id);
+    if (ids.includes(itemFD)) {
+      return preenchido;
+    }
+    return vazio;
+  };
 
   const handleClass = (item) => {
     const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -45,7 +83,6 @@ export default function DrinksProgress(props) {
   };
 
   const handleChange = (e) => {
-    // localStorage.setItem('inProgressRecipes', JSON.stringify());
     if (e.target.checked) {
       setSave((prevState) => [...prevState, e.target.name]);
       const getItens = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -104,6 +141,36 @@ export default function DrinksProgress(props) {
     return array;
   };
 
+  const favoriteRecipesFunc = () => {
+    const itemAdd = {
+      id: drinksInProgress[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drinksInProgress[0].strCategory,
+      alcoholicOrNot: drinksInProgress[0].strAlcoholic,
+      name: drinksInProgress[0].strDrink,
+      image: drinksInProgress[0].strDrinkThumb,
+    };
+
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favorites === null) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([itemAdd]));
+      setFav([itemAdd]);
+    } else {
+      const ids = fav.map((f) => f.id);
+      console.log('ids', ids);
+      console.log('item', itemFD);
+      if (ids.includes(itemFD)) {
+        const filtro = fav.filter((fil) => fil.id !== itemFD);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(filtro));
+        setFav(filtro);
+      } else {
+        localStorage.setItem('favoriteRecipes', JSON.stringify([...favorites, itemAdd]));
+        setFav((prevState) => [...prevState, itemAdd]);
+      }
+    }
+  };
+
   const directClick = () => {
     history.push('/done-recipes');
   };
@@ -120,9 +187,6 @@ export default function DrinksProgress(props) {
     );
   };
 
-  const clickFav = () => (
-    fav === 'Favoritar' ? setFav('Favoritou!!!') : setFav('Favoritar'));
-
   return (
     <div>
       {drinksInProgress.map((drink) => (
@@ -130,12 +194,21 @@ export default function DrinksProgress(props) {
           <img src={ drink.strDrinkThumb } alt="" data-testid="recipe-photo" />
           <p data-testid="recipe-title">{drink.strDrink}</p>
           <p data-testid="recipe-category">{drink.strCategory}</p>
-          <button type="button" data-testid="share-btn" onClick={ clickLink }>
-            Compartilhar
+          <button
+            type="button"
+            data-testid="share-btn"
+            onClick={ clickLink }
+          >
+            <img src={ share } alt="Botão Compartilhar" />
           </button>
           {link && <p>{link}</p>}
-          <button type="button" data-testid="favorite-btn" onClick={ clickFav }>
-            {fav || 'Favoritar'}
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            onClick={ favoriteRecipesFunc }
+            src={ retornaIcone() }
+          >
+            <img src={ retornaIcone() } alt="botão favoritar/desfavoritar" />
           </button>
           <ul>{handleIng(drink)}</ul>
           <p data-testid="instructions">{drink.strInstructions}</p>
@@ -143,6 +216,7 @@ export default function DrinksProgress(props) {
             type="button"
             data-testid="finish-recipe-btn"
             onClick={ directClick }
+            disabled={ returnDisabled() }
           >
             Finalizar
           </button>
