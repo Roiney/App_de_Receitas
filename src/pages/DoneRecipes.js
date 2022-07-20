@@ -8,8 +8,9 @@ export default function DoneRecipes(props) {
   const [storage, setStorage] = useState([]);
 
   useEffect(() => {
-    const storageRecipes = JSON.parse(localStorage.getItem('Done-Recipes'));
+    const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setStorage(storageRecipes);
+    console.log(storageRecipes);
   }, []);
   const storageReturn = () => {
     if (storage.length > 0) {
@@ -28,8 +29,8 @@ export default function DoneRecipes(props) {
             src={iconeCompartilhar}
             alt="compartilhar"
           />
-          <p data-testid={`${index}-${item.type}-horizontal-tag`}>
-            {item.type}
+          <p data-testid={`${index}-${item.tag[0]}-horizontal-tag`}>
+            {item.tag}
           </p>
         </div>
       ));

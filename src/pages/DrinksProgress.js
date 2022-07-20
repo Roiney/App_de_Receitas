@@ -40,7 +40,6 @@ export default function DrinksProgress(props) {
       setFav(favorites);
     } const texto = pathname.replace('/drinks/', '');
     const text = texto.replace('/in-progress', '');
-    console.log(text);
     setItemFD(text);
   }, []);
 
@@ -173,6 +172,23 @@ export default function DrinksProgress(props) {
 
   const directClick = () => {
     history.push('/done-recipes');
+    const itemDrink = {
+      id: drinksInProgress[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drinksInProgress[0].strCategory,
+      alcoholicOrNot: drinksInProgress[0].strAlcoholic,
+      name: drinksInProgress[0].strDrink,
+      image: drinksInProgress[0].strDrinkThumb,
+      startTime: new Date(),
+      tag: drinksInProgress[0].strTags,
+    };
+    const localGet = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (localGet === null) {
+      localStorage.setItem('doneRecipes', JSON.stringify([itemDrink]));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([...localGet, itemDrink]));
+    }
   };
 
   const clickLink = () => {

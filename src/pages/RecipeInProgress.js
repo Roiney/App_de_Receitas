@@ -167,35 +167,6 @@ export default function RecipeInProgress(props) {
     }
   };
 
-<<<<<<< HEAD
-  useEffect(() => {
-    /* const items = foodsInProgress.map((food) => (
-      <ul>
-        {handleIng(food)}
-      </ul>
-    )); */
-    // console.log(foodsInProgress);
-    const enabledButton = () => {
-      // const obj = Object.entries(foodsInProgress);
-      const checkB = document.getElementsByTagName('input');
-      console.log('check', checkB.length);
-      console.log('save', save.length);
-      if (save.length > 0 && save.length === checkB.length) {
-        setDisabled(false);
-      } else {
-        setDisabled(true);
-      }
-    };
-    enabledButton();
-  }, [save]);
-  // const obj = Object.entries(foodsInProgress)[0];
-  // const ingredients = obj
-  //   .filter((name) => name[0].includes('strIngredient'))
-  //   .filter((item) => item[1] !== '' && item[1] !== null);
-  // console.log(ingredients);
-
-=======
->>>>>>> main-group-26
   const clickLink = () => {
     setTimeout(() => {
       setLink('');
@@ -210,6 +181,7 @@ export default function RecipeInProgress(props) {
 
   const directClick = () => {
     history.push('/done-recipes');
+    console.log(foodsInProgress[0].strTags);
     const itemAdd = {
       id: foodsInProgress[0].idMeal,
       type: 'food',
@@ -219,8 +191,14 @@ export default function RecipeInProgress(props) {
       name: foodsInProgress[0].strMeal,
       image: foodsInProgress[0].strMealThumb,
       startTime: new Date(),
+      tag: foodsInProgress[0].strTags,
     };
-    localStorage.setItem('Done-Recipes', JSON.stringify([itemAdd]));
+    const localFood = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (localFood === null) {
+      localStorage.setItem('doneRecipes', JSON.stringify([itemAdd]));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([...localFood, itemAdd]));
+    }
   };
 
   /* const clickFav = () => (
