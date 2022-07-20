@@ -8,6 +8,7 @@ export default function RecProvider({ children }) {
   // const [login, setLogin] = useState('');
   const [search, setSearch] = useState('');
   const [inputSearch, setInputSearch] = useState('');
+  const [doneRecipes] = useState('');
   const [food, setFood] = useState([]);
   const [drink, setDrink] = useState([]);
   const [foodsIn12, setFoodsIn12] = useState([]);
@@ -144,6 +145,7 @@ export default function RecProvider({ children }) {
     foodsInProgress,
     drinksInProgress,
     reqApiProgressDrinks,
+    doneRecipes,
   };
 
   return (
