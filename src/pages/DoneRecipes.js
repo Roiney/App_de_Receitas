@@ -65,6 +65,22 @@ export default function DoneRecipes(props) {
             { item.type === 'food'
               ? foodItemReturn(item, index)
               : drinkItemReturn(item, index)}
+            <Link
+              to={ `/${item.type}s/${item.id}` }
+            >
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ item.image }
+                alt="imagem"
+                className="imageItem"
+              />
+            </Link>
+            <Link
+              to={ `/${item.type}s/${item.id}` }
+            >
+              <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            </Link>
+            <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
             <button
               type="button"
               src={ iconeCompartilhar }
