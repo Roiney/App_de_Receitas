@@ -61,6 +61,7 @@ export default function TwelveItems(props) {
         alcoholicOrNot: drinkId[0].strAlcoholic,
         name: drinkId[0].strDrink,
         image: drinkId[0].strDrinkThumb,
+        tag: drinkId[0].strTags,
       };
     } else {
       console.log(foodId);
@@ -72,6 +73,7 @@ export default function TwelveItems(props) {
         alcoholicOrNot: '',
         name: foodId[0].strMeal,
         image: foodId[0].strMealThumb,
+        tag: foodId[0].strTags,
       };
     }
 

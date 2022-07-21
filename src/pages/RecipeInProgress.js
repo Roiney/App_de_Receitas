@@ -182,6 +182,24 @@ export default function RecipeInProgress(props) {
 
   const directClick = () => {
     history.push('/done-recipes');
+    console.log(foodsInProgress[0].strTags);
+    const itemAdd = {
+      id: foodsInProgress[0].idMeal,
+      type: 'food',
+      nationality: foodsInProgress[0].strArea,
+      category: foodsInProgress[0].strCategory,
+      alcoholicOrNot: '',
+      name: foodsInProgress[0].strMeal,
+      image: foodsInProgress[0].strMealThumb,
+      startTime: new Date(),
+      tag: foodsInProgress[0].strTags,
+    };
+    const localFood = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (localFood === null) {
+      localStorage.setItem('doneRecipes', JSON.stringify([itemAdd]));
+    } else {
+      localStorage.setItem('doneRecipes', JSON.stringify([...localFood, itemAdd]));
+    }
   };
 
   /* const clickFav = () => (
