@@ -5,7 +5,7 @@ import Recomended from '../components/Recomended';
 import StartRecipe from '../components/StartRecipe';
 import contexto from '../context';
 
-export default function FoodsId(props) {
+export default function RecipeDetails(props) {
   const cont = useContext(contexto);
   const [identificador, setIdentificador] = useState('');
   const { context } = cont;
@@ -34,7 +34,7 @@ export default function FoodsId(props) {
   );
 }
 
-FoodsId.propTypes = {
+RecipeDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
