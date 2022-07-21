@@ -12,25 +12,33 @@ export default function DoneRecipes(props) {
     setStorage(storageRecipes);
     console.log(storageRecipes);
   }, []);
+
+  const tags = () => {
+    const tag = storage.map((item) => item.tags.split(' ')[0]);
+    return tag;
+  };
+
   const storageReturn = () => {
     if (storage.length > 0) {
       const storageMap = storage.map((item, index) => (
-        <div>
+        <div key={ index }>
           <img
-            data-testid={`${index}-horizontal-image`}
-            src={item.image}
+            data-testid={ `${index}-horizontal-image` }
+            src={ item.image }
             alt="imagem"
+            className="imageItem"
           />
-          <p data-testid={`${index}-horizontal-top-text`}>{item.category}</p>
-          <p data-testid={`${index}-horizontal-name`}>{item.name}</p>
-          <p data-testid={`${index}-horizontal-done-date`}>{item.startTime}</p>
+          <p data-testid={ `${index}-horizontal-top-text` }>{item.category}</p>
+          <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
           <img
-            data-testid={`${index}-horizontal-share-btn`}
-            src={iconeCompartilhar}
+            data-testid={ `${index}-horizontal-share-btn` }
+            src={ iconeCompartilhar }
             alt="compartilhar"
+            className="imageItem"
           />
-          <p data-testid={`${index}-${item.tag[0]}-horizontal-tag`}>
-            {item.tag}
+          <p data-testid={ `${index}-${tags()}-horizontal-tag` }>
+            { item.tags }
           </p>
         </div>
       ));
@@ -41,7 +49,6 @@ export default function DoneRecipes(props) {
   return (
     <div>
       <Header searchIcon="hidden" title="Done Recipes" history={ history } />
-      Done Recipes
       <div>
         <button type="button" data-testid="filter-by-all-btn">
           All
@@ -53,7 +60,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      {storageReturn()}
+      { storage ? storageReturn() : <p>No recipes yet</p> }
     </div>
   );
 }

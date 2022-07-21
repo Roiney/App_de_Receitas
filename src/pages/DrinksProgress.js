@@ -158,8 +158,6 @@ export default function DrinksProgress(props) {
       setFav([itemAdd]);
     } else {
       const ids = fav.map((f) => f.id);
-      console.log('ids', ids);
-      console.log('item', itemFD);
       if (ids.includes(itemFD)) {
         const filtro = fav.filter((fil) => fil.id !== itemFD);
         localStorage.setItem('favoriteRecipes', JSON.stringify(filtro));
