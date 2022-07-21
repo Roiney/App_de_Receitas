@@ -8,28 +8,29 @@ export default function DoneRecipes(props) {
   const [storage, setStorage] = useState([]);
 
   useEffect(() => {
-    const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const storageRecipes = localStorage.getItem('doneRecipes');
     setStorage(storageRecipes);
     console.log(storageRecipes);
   }, []);
+
   const storageReturn = () => {
     if (storage.length > 0) {
       const storageMap = storage.map((item, index) => (
-        <div>
+        <div key={ index }>
           <img
-            data-testid={`${index}-horizontal-image`}
-            src={item.image}
+            data-testid={ `${index}-horizontal-image` }
+            src={ item.image }
             alt="imagem"
           />
-          <p data-testid={`${index}-horizontal-top-text`}>{item.category}</p>
-          <p data-testid={`${index}-horizontal-name`}>{item.name}</p>
-          <p data-testid={`${index}-horizontal-done-date`}>{item.startTime}</p>
+          <p data-testid={ `${index}-horizontal-top-text` }>{item.category}</p>
+          <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
           <img
-            data-testid={`${index}-horizontal-share-btn`}
-            src={iconeCompartilhar}
+            data-testid={ `${index}-horizontal-share-btn` }
+            src={ iconeCompartilhar }
             alt="compartilhar"
           />
-          <p data-testid={`${index}-${item.tag[0]}-horizontal-tag`}>
+          <p data-testid={ `${index}-${item.tag}-horizontal-tag` }>
             {item.tag}
           </p>
         </div>
@@ -41,7 +42,6 @@ export default function DoneRecipes(props) {
   return (
     <div>
       <Header searchIcon="hidden" title="Done Recipes" history={ history } />
-      Done Recipes
       <div>
         <button type="button" data-testid="filter-by-all-btn">
           All
