@@ -10,7 +10,7 @@ import RecipeInProgress from './pages/RecipeInProgress';
 import Drinks from './pages/Drinks';
 import Recipes from './pages/Recipes';
 import DrinksId from './pages/DrinksId';
-import FoodsId from './pages/FoodsId';
+import RecipeDetails from './pages/RecipeDetails';
 import DrinksProgress from './pages/DrinksProgress';
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/drinks" component={ Drinks } />
-        <Route exact path="/foods/:id" component={ FoodsId } />
+        <Route exact path="/foods/:id" component={ RecipeDetails } />
         <Route exact path="/drinks/:id" component={ DrinksId } />
         <Route exact path="/foods/:id/in-progress" component={ RecipeInProgress } />
         <Route exact path="/drinks/:id/in-progress" component={ DrinksProgress } />
