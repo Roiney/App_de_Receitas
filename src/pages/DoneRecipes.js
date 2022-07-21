@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import iconeCompartilhar from '../images/shareIcon.svg';
 
@@ -51,13 +51,21 @@ export default function DoneRecipes(props) {
       const storageMap = storage.map(
         (item, index) => (
           <div key={ index }>
-            <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ item.image }
-              alt="imagem"
-              className="imageItem"
-            />
-            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            <Link
+              to={ `/${item.type}s/${item.id}` }
+            >
+              <img
+                data-testid={ `${index}-horizontal-image` }
+                src={ item.image }
+                alt="imagem"
+                className="imageItem"
+              />
+            </Link>
+            <Link
+              to={ `/${item.type}s/${item.id}` }
+            >
+              <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            </Link>
             <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
             <button
               type="button"
