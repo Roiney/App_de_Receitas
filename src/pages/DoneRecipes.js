@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import iconeCompartilhar from '../images/shareIcon.svg';
@@ -53,60 +54,43 @@ export default function DoneRecipes(props) {
     if (options.length > 0) {
       const storageMap = options.map((item, index) => (
         <div key={ index }>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ item.image }
-            alt="imagem"
-            className="imageItem"
-          />
-          <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
-          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
-          <button type="button" src={ iconeCompartilhar } onClick={ clickLink }>
+          <Link
+            to={ `/${item.type}s/${item.id}` }
+          >
             <img
-              data-testid={ `${index}-horizontal-share-btn` }
+              data-testid={ `${index}-horizontal-image` }
+              src={ item.image }
+              alt="imagem"
+              className="imageItem"
+            />
+          </Link>
+          <Link
+            to={ `/${item.type}s/${item.id}` }
+          >
+            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+          </Link>
+          <p data-testid={ `${index}-horizontal-done-date` }>
+            {item.doneDate}
+          </p>
+          { item.type === 'food'
+            ? foodItemReturn(item, index)
+            : drinkItemReturn(item, index)}
+          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
+          <button
+            type="button"
+            src={ iconeCompartilhar }
+            onClick={ () => clickLink(item.type, item.id) }
+            data-testid={ `${index}-horizontal-share-btn` }
+          >
+            <img
               src={ iconeCompartilhar }
               alt="compartilhar"
               className="imageItem"
             />
-            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
-            <p data-testid={ `${index}-horizontal-done-date` }>
-              {item.doneDate}
-            </p>
-            { item.type === 'food'
-              ? foodItemReturn(item, index)
-              : drinkItemReturn(item, index)}
-            <Link
-              to={ `/${item.type}s/${item.id}` }
-            >
-              <img
-                data-testid={ `${index}-horizontal-image` }
-                src={ item.image }
-                alt="imagem"
-                className="imageItem"
-              />
-            </Link>
-            <Link
-              to={ `/${item.type}s/${item.id}` }
-            >
-              <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
-            </Link>
-            <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
-            <button
-              type="button"
-              src={ iconeCompartilhar }
-              onClick={ () => clickLink(item.type, item.id) }
-            >
-              <img
-                data-testid={ `${index}-horizontal-share-btn` }
-                src={ iconeCompartilhar }
-                alt="compartilhar"
-                className="imageItem"
-              />
-            </button>
-            {link && <p>{link}</p>}
-          </div>
-        ),
-      );
+          </button>
+          {link && <p>{link}</p>}
+        </div>
+      ));
       return storageMap;
     }
   };
@@ -147,7 +131,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      {storage ? storageReturn() : <p>No recipes yet</p>}
+      {options ? storageReturn() : <p>No recipes yet</p>}
     </div>
   );
 }
