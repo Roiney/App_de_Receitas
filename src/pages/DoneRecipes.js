@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
-import iconeCompartilhar from '../images/iconeCompartilhar.png';
+import iconeCompartilhar from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 export default function DoneRecipes(props) {
   const { history } = props;
+  const { pathname } = useLocation();
   const [storage, setStorage] = useState([]);
 
   useEffect(() => {
@@ -13,27 +17,63 @@ export default function DoneRecipes(props) {
     console.log(storageRecipes);
   }, []);
 
+  const foodItemReturn = ({ index, category, nationality, tags }) => (
+    <div>
+      <p>{ nationality }</p>
+      <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
+      { tags.map((tag, i) => (
+        <span
+          testid={ `${i}-${tag}-horizontal-tag` }
+          key={ i + 1 }
+        >
+          { tag }
+          {' '}
+        </span>))}
+    </div>
+  );
+
+  const drinkItemReturn = ({ alcoholicOrNot }) => (<p>{alcoholicOrNot}</p>);
+
+  const clickLink = () => {
+    setTimeout(() => {
+      setLink('');
+    }, +'3000');
+    setLink('Link copied!');
+    copy(
+      `http://localhost:3000/${pathname.split('/')[1]}/${
+        pathname.split('/')[2]
+      }`,
+    );
+  };
+
   const storageReturn = () => {
     if (storage.length > 0) {
       const storageMap = storage.map(
-        ({ image, category, name, startTime, tags }, index) => (
+        (item, index) => (
           <div key={ index }>
             <img
               data-testid={ `${index}-horizontal-image` }
-              src={ image }
+              src={ item.image }
               alt="imagem"
               className="imageItem"
             />
-            <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
-            <p data-testid={ `${index}-horizontal-name` }>{name}</p>
-            <p data-testid={ `${index}-horizontal-done-date` }>{startTime}</p>
-            <img
-              data-testid={ `${index}-horizontal-share-btn` }
+            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
+            <button
+              type="button"
               src={ iconeCompartilhar }
-              alt="compartilhar"
-              className="imageItem"
-            />
-            <p data-testid={ `${index}-${tags}-horizontal-tag` }>{tags}</p>
+              onClick={ clickLink }
+            >
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                src={ iconeCompartilhar }
+                alt="compartilhar"
+                className="imageItem"
+              />
+            </button>
+            { item.type === 'food'
+              ? foodItemReturn(item)
+              : drinkItemReturn(item)}
           </div>
         ),
       );
