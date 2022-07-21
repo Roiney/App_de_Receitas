@@ -13,35 +13,30 @@ export default function DoneRecipes(props) {
     console.log(storageRecipes);
   }, []);
 
-  const tags = () => {
-    const tag = storage.map((item) => item.tags.split(' ')[0]);
-    return tag;
-  };
-
   const storageReturn = () => {
     if (storage.length > 0) {
-      const storageMap = storage.map((item, index) => (
-        <div key={ index }>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ item.image }
-            alt="imagem"
-            className="imageItem"
-          />
-          <p data-testid={ `${index}-horizontal-top-text` }>{item.category}</p>
-          <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
-          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
-          <img
-            data-testid={ `${index}-horizontal-share-btn` }
-            src={ iconeCompartilhar }
-            alt="compartilhar"
-            className="imageItem"
-          />
-          <p data-testid={ `${index}-${tags()}-horizontal-tag` }>
-            { item.tags }
-          </p>
-        </div>
-      ));
+      const storageMap = storage.map(
+        ({ image, category, name, startTime, tags }, index) => (
+          <div key={ index }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ image }
+              alt="imagem"
+              className="imageItem"
+            />
+            <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
+            <p data-testid={ `${index}-horizontal-name` }>{name}</p>
+            <p data-testid={ `${index}-horizontal-done-date` }>{startTime}</p>
+            <img
+              data-testid={ `${index}-horizontal-share-btn` }
+              src={ iconeCompartilhar }
+              alt="compartilhar"
+              className="imageItem"
+            />
+            <p data-testid={ `${index}-${tags}-horizontal-tag` }>{tags}</p>
+          </div>
+        ),
+      );
       return storageMap;
     }
   };
@@ -60,7 +55,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      { storage ? storageReturn() : <p>No recipes yet</p> }
+      {storage ? storageReturn() : <p>No recipes yet</p>}
     </div>
   );
 }
