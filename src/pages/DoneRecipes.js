@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import iconeCompartilhar from '../images/shareIcon.svg';
 
@@ -8,8 +7,8 @@ const copy = require('clipboard-copy');
 
 export default function DoneRecipes(props) {
   const { history } = props;
-  const { pathname } = useLocation();
   const [storage, setStorage] = useState([]);
+  const [link, setLink] = useState('');
 
   useEffect(() => {
     const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
@@ -17,32 +16,34 @@ export default function DoneRecipes(props) {
     console.log(storageRecipes);
   }, []);
 
-  const foodItemReturn = ({ index, category, nationality, tags }) => (
+  const foodItemReturn = (item, index) => (
     <div>
-      <p>{ nationality }</p>
-      <p data-testid={ `${index}-horizontal-top-text` }>{category}</p>
-      { tags.map((tag, i) => (
+      <p data-testid={ `${index}-horizontal-top-text` }>
+        { `${item.nationality} - ${item.category}`}
+      </p>
+      { item.tags.map((tag, i) => (
         <span
-          testid={ `${i}-${tag}-horizontal-tag` }
+          data-testid={ `${index}-${tag}-horizontal-tag` }
           key={ i + 1 }
         >
           { tag }
-          {' '}
         </span>))}
     </div>
   );
 
-  const drinkItemReturn = ({ alcoholicOrNot }) => (<p>{alcoholicOrNot}</p>);
+  const drinkItemReturn = (item, index) => (
+    <div>
+      <p data-testid={ `${index}-horizontal-top-text` }>{item.alcoholicOrNot}</p>
+    </div>
+  );
 
-  const clickLink = () => {
+  const clickLink = (type, id) => {
     setTimeout(() => {
       setLink('');
     }, +'3000');
     setLink('Link copied!');
     copy(
-      `http://localhost:3000/${pathname.split('/')[1]}/${
-        pathname.split('/')[2]
-      }`,
+      `http://localhost:3000/${type}s/${id}`,
     );
   };
 
@@ -51,6 +52,19 @@ export default function DoneRecipes(props) {
       const storageMap = storage.map(
         (item, index) => (
           <div key={ index }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ item.image }
+              alt="imagem"
+              className="imageItem"
+            />
+            <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+            <p data-testid={ `${index}-horizontal-done-date` }>
+              {item.doneDate}
+            </p>
+            { item.type === 'food'
+              ? foodItemReturn(item, index)
+              : drinkItemReturn(item, index)}
             <Link
               to={ `/${item.type}s/${item.id}` }
             >
@@ -70,7 +84,7 @@ export default function DoneRecipes(props) {
             <button
               type="button"
               src={ iconeCompartilhar }
-              onClick={ clickLink }
+              onClick={ () => clickLink(item.type, item.id) }
             >
               <img
                 data-testid={ `${index}-horizontal-share-btn` }
@@ -79,9 +93,7 @@ export default function DoneRecipes(props) {
                 className="imageItem"
               />
             </button>
-            { item.type === 'food'
-              ? foodItemReturn(item)
-              : drinkItemReturn(item)}
+            {link && <p>{link}</p>}
           </div>
         ),
       );

@@ -191,7 +191,7 @@ export default function RecipeInProgress(props) {
       alcoholicOrNot: '',
       name: foodsInProgress[0].strMeal,
       image: foodsInProgress[0].strMealThumb,
-      startTime: new Date(),
+      doneDate: new Date(),
       tags: foodsInProgress[0].strTags.split(','),
     };
     const localFood = JSON.parse(localStorage.getItem('doneRecipes'));

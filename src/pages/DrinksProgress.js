@@ -179,7 +179,7 @@ export default function DrinksProgress(props) {
       alcoholicOrNot: drinksInProgress[0].strAlcoholic,
       name: drinksInProgress[0].strDrink,
       image: drinksInProgress[0].strDrinkThumb,
-      startTime: new Date(),
+      doneDate: new Date(),
       tag: drinksInProgress[0].strTags,
     };
     const localGet = JSON.parse(localStorage.getItem('doneRecipes'));
