@@ -8,11 +8,13 @@ const copy = require('clipboard-copy');
 export default function DoneRecipes(props) {
   const { history } = props;
   const [storage, setStorage] = useState([]);
+  const [options, setOptions] = useState([]);
   const [link, setLink] = useState('');
 
   useEffect(() => {
     const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setStorage(storageRecipes);
+    setOptions(storageRecipes);
     console.log(storageRecipes);
   }, []);
 
@@ -48,14 +50,22 @@ export default function DoneRecipes(props) {
   };
 
   const storageReturn = () => {
-    if (storage.length > 0) {
-      const storageMap = storage.map(
-        (item, index) => (
-          <div key={ index }>
+    if (options.length > 0) {
+      const storageMap = options.map((item, index) => (
+        <div key={ index }>
+          <img
+            data-testid={ `${index}-horizontal-image` }
+            src={ item.image }
+            alt="imagem"
+            className="imageItem"
+          />
+          <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
+          <p data-testid={ `${index}-horizontal-done-date` }>{item.startTime}</p>
+          <button type="button" src={ iconeCompartilhar } onClick={ clickLink }>
             <img
-              data-testid={ `${index}-horizontal-image` }
-              src={ item.image }
-              alt="imagem"
+              data-testid={ `${index}-horizontal-share-btn` }
+              src={ iconeCompartilhar }
+              alt="compartilhar"
               className="imageItem"
             />
             <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
@@ -101,17 +111,39 @@ export default function DoneRecipes(props) {
     }
   };
 
+  const foodFilterBtn = (filter) => {
+    const filterFood = filter.filter((food) => food.type === 'food');
+    setOptions(filterFood);
+  };
+
+  const drinkFilterBtn = (filter) => {
+    const filterDrink = filter.filter((drink) => drink.type === 'drink');
+    setOptions(filterDrink);
+  };
+
   return (
     <div>
       <Header searchIcon="hidden" title="Done Recipes" history={ history } />
       <div>
-        <button type="button" data-testid="filter-by-all-btn">
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setOptions(storage) }
+        >
           All
         </button>
-        <button type="button" data-testid="filter-by-food-btn">
+        <button
+          type="button"
+          data-testid="filter-by-food-btn"
+          onClick={ () => foodFilterBtn(storage) }
+        >
           Food
         </button>
-        <button type="button" data-testid="filter-by-drink-btn">
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => drinkFilterBtn(storage) }
+        >
           Drinks
         </button>
       </div>
