@@ -13,6 +13,11 @@ export default function DoneRecipes(props) {
     console.log(storageRecipes);
   }, []);
 
+  const tags = () => {
+    const tag = storage.map((item) => item.tags.split(' ')[0]);
+    return tag;
+  };
+
   const storageReturn = () => {
     if (storage.length > 0) {
       const storageMap = storage.map((item, index) => (
@@ -21,6 +26,7 @@ export default function DoneRecipes(props) {
             data-testid={ `${index}-horizontal-image` }
             src={ item.image }
             alt="imagem"
+            className="imageItem"
           />
           <p data-testid={ `${index}-horizontal-top-text` }>{item.category}</p>
           <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
@@ -29,9 +35,10 @@ export default function DoneRecipes(props) {
             data-testid={ `${index}-horizontal-share-btn` }
             src={ iconeCompartilhar }
             alt="compartilhar"
+            className="imageItem"
           />
-          <p data-testid={ `${index}-${item.tag}-horizontal-tag` }>
-            {item.tag}
+          <p data-testid={ `${index}-${tags()}-horizontal-tag` }>
+            { item.tags }
           </p>
         </div>
       ));
@@ -53,7 +60,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      {storageReturn()}
+      { storage ? storageReturn() : <p>No recipes yet</p> }
     </div>
   );
 }

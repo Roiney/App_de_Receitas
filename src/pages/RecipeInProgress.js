@@ -192,7 +192,7 @@ export default function RecipeInProgress(props) {
       name: foodsInProgress[0].strMeal,
       image: foodsInProgress[0].strMealThumb,
       startTime: new Date(),
-      tag: foodsInProgress[0].strTags,
+      tags: JSON.parse(foodsInProgress[0].strTags),
     };
     const localFood = JSON.parse(localStorage.getItem('doneRecipes'));
     if (localFood === null) {
@@ -201,9 +201,6 @@ export default function RecipeInProgress(props) {
       localStorage.setItem('doneRecipes', JSON.stringify([...localFood, itemAdd]));
     }
   };
-
-  /* const clickFav = () => (
-    fav === 'Favoritar' ? setFav('Favoritou!!!') : setFav('Favoritar')); */
 
   return (
     <div>
