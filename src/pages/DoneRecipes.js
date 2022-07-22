@@ -13,7 +13,7 @@ export default function DoneRecipes(props) {
   const [link, setLink] = useState('');
 
   useEffect(() => {
-    const storageRecipes = localStorage.getItem('doneRecipes');
+    const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     setStorage(storageRecipes);
     setOptions(storageRecipes);
     console.log(storageRecipes);
@@ -51,6 +51,7 @@ export default function DoneRecipes(props) {
   };
 
   const storageReturn = () => {
+    console.log('storageReturn', options);
     if (options.length > 0) {
       const storageMap = options.map((item, index) => (
         <div key={ index }>
@@ -131,7 +132,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      {options ? storageReturn() : <p>No recipes yet</p>}
+      {options.length ? storageReturn() : <p>No recipes yet</p>}
     </div>
   );
 }
