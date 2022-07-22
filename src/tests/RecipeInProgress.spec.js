@@ -3,8 +3,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
-import { act } from "react-dom/test-utils";
-import RecipeInProgress from '../pages/RecipeInProgress';
 
 const copy = require('clipboard-copy');
 
@@ -291,38 +289,6 @@ describe('teste na pagina em progresso', () => {
     userEvent.click(buttonFavoritesWhiteHeart);
     expect(buttonFavoritesWhiteHeart).toBeInTheDocument(); */
   });
-
-  it('Deve haver um botão de favoritar receita', async () => {
-    const { history } = renderWithRouter(<App />);
-    history.push("/foods/52977/in-progress");
-    
-    const blackIcon = 'blackHeartIcon'
-    const whiteIcon = 'whiteHeartIcon'
-    let button;
-    await waitFor(() => {
-      button = screen.getByTestId('favorite-btn')
-    })
-    expect(button.firstChild.src).toMatch(new RegExp(whiteIcon, 'i'))
-    act(() => {
-      userEvent.click(button)
-    })
-    expect(button.firstChild.src).toMatch(new RegExp(blackIcon, 'i'))
-    history.push("/drinks/15997/in-progress");
-    await waitFor(() => {
-      button = screen.getByTestId('favorite-btn')
-    })
-    expect(button.firstChild.src).toMatch(new RegExp(whiteIcon, 'i'))
-    act(() => {
-      userEvent.click(button)
-    })
-    expect(button.firstChild.src).toMatch(new RegExp(blackIcon, 'i'))
-    history.push("/foods/52977/in-progress");
-    await waitFor(() => {
-      button = screen.getByTestId('favorite-btn')
-    })
-    expect(button.firstChild.src).toMatch(new RegExp(blackIcon, 'i'))
-
-  })
 
   it('Testando os botao de favorite e share', async () => {
     global.fetch = fetch
