@@ -1,10 +1,11 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import DoneRecipes from '../pages/DoneRecipes';
+import { screen, waitFor } from '@testing-library/react';
 import renderWithRouter from './renderWithRouter';
+import userEvent from '@testing-library/user-event';
+import DoneRecipes from '../pages/DoneRecipes';
 
 describe('Teste na tela de receitas finalizadas', () => {
-  const mockDoneRecipes = [
+  const doneRecipes = [
     {
       id: '52771',
       type: 'food',
@@ -30,7 +31,7 @@ describe('Teste na tela de receitas finalizadas', () => {
   ];
   
   beforeEach(() => {
-    localStorage.setItem('doneRecipes', JSON.stringify(mockDoneRecipes));
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
     const mockClipboard = {
       writeText: jest.fn(),
     };
@@ -43,13 +44,13 @@ describe('Teste na tela de receitas finalizadas', () => {
 
   it('Elementos da DoneRecipes renderizados na tela:', async () => {
     renderWithRouter(<DoneRecipes />);
-
+    
     const buttonFilterAll = screen.queryByTestId(/filter-by-all-btn/i);
     const buttonFilterFood = screen.queryByTestId(/filter-by-food-btn/i);
     const buttonFilterDrink = screen.queryByTestId(/filter-by-drink-btn/i);
     const recipeImage = screen.queryByTestId(/0-horizontal-image/i);
     const recipeName = screen.queryByTestId(/0-horizontal-name/i);
-    const recipeDoneDate = screen.queryByTestId(/0-horizontal-done-date/i);
+    const recipeDoneDate = screen.getAllByTestId(/0-horizontal-done-date/i);
     const recipeCategory = screen.queryByTestId(/0-horizontal-top-text/i);
     const recipeShare = screen.queryByTestId(/0-horizontal-share-btn/i);
 
@@ -58,8 +59,9 @@ describe('Teste na tela de receitas finalizadas', () => {
     expect(buttonFilterDrink).toBeInTheDocument();
     expect(recipeImage).toBeInTheDocument();
     expect(recipeName).toBeInTheDocument();
-    expect(recipeDoneDate).toBeInTheDocument();
+    expect(recipeDoneDate).toBeDefined();
     expect(recipeCategory).toBeInTheDocument();
     expect(recipeShare).toBeInTheDocument();
+
   });
 });

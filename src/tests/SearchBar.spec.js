@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
 import App from '../App';
@@ -180,7 +180,7 @@ describe('Testando página drinks', () => {
     );
   });
 
-  test('verificando filtros', async () => {
+  it('verificando filtros', async () => {
     const { history } = renderWithRouter(<App />);
     history.push('/foods')
     const searchLupa = screen.getByTestId("search-top-btn");
@@ -206,14 +206,14 @@ describe('Testando página drinks', () => {
 
       const searchLupa1 = screen.getByTestId("search-top-btn");
       expect(searchLupa1).toBeInTheDocument();
-      // userEvent.click(searchLupa1);
+      userEvent.click(searchLupa1);
 
-    const inputText1 = screen.getByTestId('search-input');
-    expect(inputText1).toBeInTheDocument();
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    expect(searchInput).toBeInTheDocument();
 
-    userEvent.clear(inputText1);
-    userEvent.type(inputText1, 'Light Rum');
-    expect(inputText1.value).toBe('Light Rum');
+    userEvent.clear(searchInput);
+    userEvent.type(searchInput, 'Light Rum');
+    expect(searchInput.value).toBe('Light Rum');
 
     const ingredientRadio1 = screen.getByTestId("ingredient-search-radio");
     userEvent.click(ingredientRadio1);
@@ -226,6 +226,96 @@ describe('Testando página drinks', () => {
       expect(recipeFiltered1).toBeInTheDocument();
 
   });
+
+  it('testando alerta', async () => {
+    window.alert = jest.fn().mockResolvedValue(() => {});
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods')
+
+    const searchInputBtn = screen.getByTestId('search-top-btn');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByTestId('exec-search-btn');
+    
+    userEvent.click(searchInputBtn);
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    userEvent.click(radioName);
+    userEvent.type(searchInput, 'xablau');
+    userEvent.click(searchBtn);
+
+    await waitFor(() => {
+      expect(window.alert).toHaveBeenCalledTimes(1);
+      expect(window.alert).toHaveBeenCalledWith("Sorry, we haven't found any recipes for these filters.")
+    })
+  })
+
+  it('testando alerta drinks', async () => {
+    window.alert = jest.fn().mockResolvedValue(() => {});
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks')
+
+    const searchInputBtn = screen.getByTestId('search-top-btn');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByTestId('exec-search-btn');
+    
+    userEvent.click(searchInputBtn);
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    userEvent.click(radioName);
+    userEvent.type(searchInput, 'xablau');
+    userEvent.click(searchBtn);
+
+    await waitFor(() => {
+      expect(window.alert).toHaveBeenCalledTimes(1);
+      expect(window.alert).toHaveBeenCalledWith("Sorry, we haven't found any recipes for these filters.")
+    })
+  })
+
+  it('testando redirecionamento', async () => {
+    window.alert = jest.fn().mockResolvedValue(() => {});
+    const { history } = renderWithRouter(<App />);
+    history.push('/drinks')
+
+    const searchInputBtn = screen.getByTestId('search-top-btn');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByTestId('exec-search-btn');
+    
+    userEvent.click(searchInputBtn);
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    userEvent.click(radioName);
+    userEvent.type(searchInput, 'egg');
+    userEvent.click(searchBtn);
+
+    const eggText = await screen.findByText(/egg cream/i)
+    expect(eggText).toBeInTheDocument();
+    userEvent.click(eggText);
+    expect(history.location.pathname).toBe('/drinks/12668');
+    const recipePhoto = await screen.findByTestId(/recipe-photo/i)
+    expect(recipePhoto).toBeInTheDocument();
+
+  })
+
+  it('testando redirecionamento', async () => {
+    window.alert = jest.fn().mockResolvedValue(() => {});
+    const { history } = renderWithRouter(<App />);
+    history.push('/foods')
+
+    const searchInputBtn = screen.getByTestId('search-top-btn');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchBtn = screen.getByTestId('exec-search-btn');
+    
+    userEvent.click(searchInputBtn);
+    const searchInput = await screen.findByPlaceholderText(/search/i);
+    userEvent.click(radioName);
+    userEvent.type(searchInput, 'egg');
+    userEvent.click(searchBtn);
+
+    const eggText = await screen.findByText(/egg drop soup/i)
+    expect(eggText).toBeInTheDocument();
+    userEvent.click(eggText);
+    expect(history.location.pathname).toBe('/foods/52955');
+    const recipePhoto = await screen.findByTestId(/recipe-photo/i)
+    expect(recipePhoto).toBeInTheDocument();
+
+  })
 
   it('Testando se exibe alerta ao digitar mais de uma letra', async () => {
     const alert = jest.spyOn(window, 'alert').mockImplementation(() => {});
