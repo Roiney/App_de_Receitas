@@ -132,7 +132,7 @@ export default function DoneRecipes(props) {
           Drinks
         </button>
       </div>
-      {options.length ? storageReturn() : <p>No recipes yet</p>}
+      {options ? storageReturn() : <p>No recipes yet</p>}
     </div>
   );
 }
