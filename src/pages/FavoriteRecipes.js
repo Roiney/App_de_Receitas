@@ -11,7 +11,7 @@ export default function FavoriteRecipes(props) {
   const [link, setLink] = useState('');
 
   useEffect(() => {
-    const storageRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const storageRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
     setStorage(storageRecipes);
     setOptions(storageRecipes);
     console.log(storageRecipes);
