@@ -6,6 +6,8 @@ import iconeCompartilhar from '../images/shareIcon.svg';
 import vazio from '../images/whiteHeartIcon.svg';
 // import preenchido from '../images/blackHeartIcon.svg';
 
+const copy = require('clipboard-copy');
+
 export default function FavoriteRecipes(props) {
   const { history } = props;
   const [storage, setStorage] = useState([]);
