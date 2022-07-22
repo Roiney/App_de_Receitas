@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import iconeCompartilhar from '../images/shareIcon.svg';
+import vazio from '../images/whiteHeartIcon.svg';
+import preenchido from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes(props) {
   const { history } = props;
@@ -17,18 +19,13 @@ export default function FavoriteRecipes(props) {
     console.log(storageRecipes);
   }, []);
 
+  const retornaIcone = () => vazio;
+
   const foodItemReturn = (item, index) => (
     <div>
       <p data-testid={ `${index}-horizontal-top-text` }>
         { `${item.nationality} - ${item.category}`}
       </p>
-      { item.tags.map((tag, i) => (
-        <span
-          data-testid={ `${index}-${tag}-horizontal-tag` }
-          key={ i + 1 }
-        >
-          { tag }
-        </span>))}
     </div>
   );
 
@@ -68,9 +65,6 @@ export default function FavoriteRecipes(props) {
           >
             <p data-testid={ `${index}-horizontal-name` }>{item.name}</p>
           </Link>
-          <p data-testid={ `${index}-horizontal-done-date` }>
-            {item.doneDate}
-          </p>
           { item.type === 'food'
             ? foodItemReturn(item, index)
             : drinkItemReturn(item, index)}
@@ -86,6 +80,13 @@ export default function FavoriteRecipes(props) {
               alt="compartilhar"
               className="imageItem"
             />
+          </button>
+          <button
+            type="button"
+            src={ retornaIcone() }
+            data-testid={ `${index}-horizontal-favorite-btn` }
+          >
+            <img src={ retornaIcone() } alt="botão favoritar/desfavoritar" />
           </button>
           {link && <p>{link}</p>}
         </div>
@@ -106,7 +107,7 @@ export default function FavoriteRecipes(props) {
 
   return (
     <div>
-      <Header searchIcon="hidden" title="Done Recipes" history={ history } />
+      <Header searchIcon="hidden" title="Favorite Recipes" history={ history } />
       <div>
         <button
           type="button"
@@ -130,7 +131,7 @@ export default function FavoriteRecipes(props) {
           Drinks
         </button>
       </div>
-      {options.length ? storageReturn() : <p>No recipes yet</p>}
+      {options ? storageReturn() : <p>No recipes yet</p>}
     </div>
   );
 }
