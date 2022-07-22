@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import iconeCompartilhar from '../images/shareIcon.svg';
 import vazio from '../images/whiteHeartIcon.svg';
-import preenchido from '../images/blackHeartIcon.svg';
+// import preenchido from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes(props) {
   const { history } = props;
